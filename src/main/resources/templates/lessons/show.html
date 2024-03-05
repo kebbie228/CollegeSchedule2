@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+
+<div th:each="lesson:${lessons}">
+    <a th:href="@{/lessons/{id}(id=${lesson.getId()})}"
+       th:text="${lesson.getLessonName()}">group
+    </a>
+
+</div>
+<a href="/lessons/new">Создать новый предмет </a>
+</br>
+</body>
+</html>

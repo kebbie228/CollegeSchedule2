@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+
+<div th:each="specialization:${specializations}">
+    <a th:href="@{/specializations/{id}(id=${specialization.getId()})}"
+       th:text="${specialization.getSpecializationName()}">group
+    </a>
+
+</div>
+<a href="/specializations/new">Создать нвоую специальность </a>
+</br>
+</body>
+</html>
