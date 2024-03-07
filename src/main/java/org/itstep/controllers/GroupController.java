@@ -3,7 +3,7 @@ package org.itstep.controllers;
 import org.itstep.model.Group;
 
 import org.itstep.services.GroupService;
-import org.itstep.services.SpecializationService;
+import org.itstep.util.GroupValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +18,12 @@ import javax.validation.Valid;
 public class GroupController {
 
     private final GroupService groupService;
-
+    private  final GroupValidator groupValidator;
 
     @Autowired
-    public GroupController(GroupService groupService) {
+    public GroupController(GroupService groupService, GroupValidator groupValidator) {
         this.groupService = groupService;
+        this.groupValidator = groupValidator;
     }
 
 
@@ -45,6 +46,7 @@ public class GroupController {
     @PostMapping()
     public String create(@ModelAttribute("group") @Valid Group group,
                          BindingResult bindingResult) {
+        groupValidator.validate(group,bindingResult);
         if (bindingResult.hasErrors())
             return "groups/new";
         groupService.save(group);
@@ -60,6 +62,7 @@ public class GroupController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("group") @Valid Group group, BindingResult bindingResult,
                          @PathVariable("id") Long id) {
+        groupValidator.validate(group,bindingResult);
         if (bindingResult.hasErrors())
             return "groups/edit";
 
@@ -72,6 +75,14 @@ public class GroupController {
         return "redirect:/groups";
     }
 
+    @GetMapping("/listLessons/{id}")
+    public String listLessons(Model model) {
+
+
+
+        return "groups/new";
+
+    }
 
 }
 

@@ -3,7 +3,7 @@ package org.itstep.repositories;
 
 import org.itstep.model.Lesson;
 
-import org.itstep.model.Specialization;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

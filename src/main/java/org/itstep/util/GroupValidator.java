@@ -1,7 +1,6 @@
 package org.itstep.util;
 
 import org.itstep.model.Group;
-import org.itstep.model.Lesson;
 import org.itstep.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class GroupValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         //   Specialization specialization= (Specialization) o;
-        if( groupService.findByLessonName(((Group) o).getGroupName())!=null)
+        if(groupService.findByGroupName(((Group) o).getGroupName())!=null)
             errors.rejectValue("groupName", "","Такая группа уже существует!");
     }
 }

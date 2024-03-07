@@ -42,8 +42,9 @@ public class GroupService {
         groupRepository.deleteById(id);
     }
 
-    public Lesson findByLessonName(String groupName){
-        Optional<Lesson> foundGroup= Optional.ofNullable(groupRepository.findByGroupName(groupName));
+    public Group findByGroupName(String groupName){
+
+        Optional<Group> foundGroup= Optional.ofNullable(groupRepository.findByGroupName(groupName));
         return foundGroup.orElse(null);
     }
 

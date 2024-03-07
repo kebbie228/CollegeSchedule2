@@ -1,7 +1,6 @@
 package org.itstep.util;
 
 import org.itstep.model.Lesson;
-import org.itstep.model.Specialization;
 import org.itstep.services.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

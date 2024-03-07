@@ -24,7 +24,13 @@ public class Group {
     @Size(min = 2, max = 6, message = "Название группы не должно превышать 6 символов")
     private String groupName;
 
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name="group_lesson",
+            joinColumns = @JoinColumn(name="group_id"),
+            inverseJoinColumns = @JoinColumn(name = "lesson_id")
+    )
+    private List<Lesson> groupLessons;
 
 //    @ManyToOne
 //    @JoinColumn(name = "specialization_id",referencedColumnName = "specialization_id")

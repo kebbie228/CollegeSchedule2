@@ -10,6 +10,8 @@
 <a th:href="@{/groups/{id}/edit(id=${group.getId()})}">Edit</a>
 <form th:method="DELETE" th:action="@{/groups/{id}(id=${group.getId()})}">
   <input type="submit" value="Delete"/>
+  <a th:href="@{/groups/listLessons/{id}(id=${group.getId()})}">Список предметов группы</a>
+  <a href="/groups/addLesson">Добавить предмет</a>
 </form>
 </div>
 </body>
