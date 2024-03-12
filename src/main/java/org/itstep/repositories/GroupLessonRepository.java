@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GroupLessonRepository extends JpaRepository<GroupLesson,Long> {
     GroupLesson findByGroupAndLesson(Group group, Lesson lesson);
+    boolean existsByGroupIdAndLessonId(long groupId, long lessonId);
+
 
 }

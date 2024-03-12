@@ -75,14 +75,14 @@ public class GroupController {
         return "redirect:/groups";
     }
 
-    @GetMapping("/listLessons/{id}")
-    public String listLessons(Model model) {
-
-
-
-        return "groups/new";
-
-    }
+//    @GetMapping("/listLessons/{id}")
+//    public String listLessons(Model model,@PathVariable("id") Long id) {
+//
+//
+//
+//        return "groups/new";
+//
+//    }
 
 }
 

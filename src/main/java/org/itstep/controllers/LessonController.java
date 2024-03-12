@@ -1,6 +1,10 @@
 package org.itstep.controllers;
 
+import org.itstep.model.Group;
+import org.itstep.model.GroupLesson;
 import org.itstep.model.Lesson;
+import org.itstep.services.GroupLessonService;
+import org.itstep.services.GroupService;
 import org.itstep.services.LessonService;
 import org.itstep.util.LessonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -19,11 +27,15 @@ public class LessonController {
     private final LessonService lessonService;
 
     private  final LessonValidator lessonValidator;
+    private final GroupService groupService;
+    private final GroupLessonService groupLessonService;
 
     @Autowired
-    public LessonController(LessonService lessonService, LessonValidator lessonValidator) {
+    public LessonController(LessonService lessonService, LessonValidator lessonValidator, GroupService groupService, GroupLessonService groupLessonService) {
         this.lessonService = lessonService;
         this.lessonValidator = lessonValidator;
+        this.groupService = groupService;
+        this.groupLessonService = groupLessonService;
     }
 
 
@@ -75,8 +87,40 @@ public class LessonController {
         lessonService.delete(id);
         return "redirect:/lessons";
     }
+    @GetMapping("/group/{id}")
+    public String listLessons(Model model,@PathVariable("id") Long id) {
+        Group group = groupService.findById(id);
+        model.addAttribute("group", group);
+        model.addAttribute("lessons",lessonService.findByGroups(group));
+        return "lessons/groupLessons";
+    }
+    // Создаем Map для хранения информации о каждой песне (songId -> songAdded)
+//        Map<Long, Boolean> lessonNoAddedInGroupMap = new HashMap<>();
+//        List<Lesson> lessons = lessonService.findByGroups(group);
+//        for (Lesson lesson : lessons) {
+//            long lessonId = lesson.getId();
+//
+//            boolean lessonNoAdded =!groupLessonService.hasLesson(group.getId(), lessonId);
+//            lessonNoAddedInGroupMap.put(lessonId, lessonNoAdded);
+//        }
+//        model.addAttribute("lessonNoAddedInGroupMap", lessonNoAddedInGroupMap); // Передаем информацию в модель
 
+    @GetMapping("/group/{id}/add")
+    public String addLessonToGroup(Model model,@PathVariable("id") Long id, @ModelAttribute("groupLesson") GroupLesson groupLesson) {
+        Group group = groupService.findById(id);
+        model.addAttribute("group", group);
+        List<Lesson> lessons = lessonService.findAll();
+        List<Lesson> lessonsNoAdd = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            long lessonId = lesson.getId();
+            if (groupLessonService.findByGroupAndLesson(group, lessonService.findById(lessonId))==null) {
 
+                lessonsNoAdd.add(lessonService.findById(lessonId));
+            }
+        }
+        model.addAttribute("lessonsNoAdd", lessonsNoAdd);
+        return "lessons/addLessonToGroup";
+    }
 }
 
 

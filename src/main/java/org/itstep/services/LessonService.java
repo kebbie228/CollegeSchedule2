@@ -2,6 +2,7 @@ package org.itstep.services;
 
 
 
+import org.itstep.model.Group;
 import org.itstep.model.Lesson;
 import org.itstep.repositories.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,11 @@ public class LessonService {
         Optional<Lesson> foundLesson= Optional.ofNullable(lessonRepository.findByLessonName(lessonName));
         return foundLesson.orElse(null);
     }
+
+    public List<Lesson> findByGroups(Group group){
+        return lessonRepository.findByGroups(group);
+    }
+
+
 }
 

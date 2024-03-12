@@ -6,12 +6,13 @@
   <title>Index</title>
 </head>
 <body>
-
+<a th:href="@{/lessons/group/{id}(id=${group.getId()})}">Список предметов группы</a>
+<br>
 <a th:href="@{/groups/{id}/edit(id=${group.getId()})}">Edit</a>
+<br>
 <form th:method="DELETE" th:action="@{/groups/{id}(id=${group.getId()})}">
   <input type="submit" value="Delete"/>
-  <a th:href="@{/groups/listLessons/{id}(id=${group.getId()})}">Список предметов группы</a>
-  <a href="/groups/addLesson">Добавить предмет</a>
+
 </form>
 </div>
 </body>

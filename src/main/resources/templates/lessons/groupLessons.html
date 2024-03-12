@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Show</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div th:each="lesson: ${lessons}">
+  <div class="d-flex align-items-center">
+    <span th:text="${lesson.getLessonName()}">group</span>
+    <form th:method="DELETE" th:action="@{/groupLesson/deleteLessonFromGroup/{id1}/{id2}(id1=${group.getId()},id2=${lesson.getId()})}">
+      <input type="submit" class="btn btn-danger ml-2" value="Delete"/>
+    </form>
+  </div>
+</div>
+<a th:href="@{/lessons/group/{id}/add(id=${group.getId()})}">Добавить к группе предмет</a>
+</br>
+</body>
+</html>
