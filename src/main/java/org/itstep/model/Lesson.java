@@ -3,7 +3,7 @@ package org.itstep.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -29,5 +29,9 @@ public class Lesson {
     @ManyToMany(mappedBy = "groupLessons",cascade = CascadeType.REFRESH)
     private List<Group> groups;
 
+    @ManyToMany(mappedBy = "teacherLessons",cascade = CascadeType.REFRESH)
+    private List<Teacher> teachers;
 
+    @OneToMany(mappedBy = "lesson")
+    private List<Schedule> scheduleList;
 }

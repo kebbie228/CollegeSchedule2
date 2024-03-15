@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Show</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/teacherLesson/addLessonToTeacher}" th:object="${teacherLesson}">
+
+
+  <label for="lesson">Выберите предмет</label>
+  <select id="lesson" th:field="*{lesson.id}">
+    <option th:each="lesson : ${lessonsNoAdd}" th:value="${lesson.id}" th:text="${lesson.lessonName}">
+    </option>
+  </select>
+  <br/>
+
+
+
+  <input type="hidden" name="teacherId" th:value="${teacher.getId()}" />
+
+  <input type="submit" value="Create!"/>
+</form>
+
+</br>
+</body>
+</html>

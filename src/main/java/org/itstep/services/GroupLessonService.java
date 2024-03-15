@@ -26,8 +26,6 @@ public class GroupLessonService {
         groupLessonRepository.save(groupLesson);
     }
 
-    public boolean hasLesson(long groupId, long lessonId) {
-        return groupLessonRepository.existsByGroupIdAndLessonId(groupId, lessonId);
-    }
+
 
 }

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,4 +23,16 @@ public class Teacher {
     @NotEmpty(message = "ФИО преподавателя не должно быть пустым")
     @Size(min = 5, max = 33 , message = "ФИО преподавателя не должно превышать 33 символов")
     private String teacherName;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name="teacher_lesson",
+            joinColumns = @JoinColumn(name="teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "lesson_id")
+    )
+    private List<Lesson> teacherLessons;
+
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Schedule> scheduleList;
 }

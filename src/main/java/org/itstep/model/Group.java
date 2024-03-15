@@ -32,8 +32,7 @@ public class Group {
     )
     private List<Lesson> groupLessons;
 
-//    @ManyToOne
-//    @JoinColumn(name = "specialization_id",referencedColumnName = "specialization_id")
-//    private  Specialization specialization;
+    @OneToMany(mappedBy = "group")
+    private List<Schedule> scheduleList;
 
 }

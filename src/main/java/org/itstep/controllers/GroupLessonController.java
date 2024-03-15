@@ -35,7 +35,6 @@ private final LessonService lessonService;
     }
 
 
-
     @PostMapping("/addLessonToGroup")
     public String addLessonToGroup(@ModelAttribute("listenerSong") GroupLesson groupLesson,
                                    @RequestParam("lesson.id") Long lessonId,
@@ -49,7 +48,5 @@ private final LessonService lessonService;
         groupLessonService.save(groupLesson);
         String redirectUrl = "redirect:/lessons/group/" + groupId;
         return redirectUrl;
-
-
     }
 }

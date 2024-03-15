@@ -1,11 +1,7 @@
 package org.itstep.controllers;
 
-import org.itstep.model.Group;
-import org.itstep.model.GroupLesson;
-import org.itstep.model.Lesson;
-import org.itstep.services.GroupLessonService;
-import org.itstep.services.GroupService;
-import org.itstep.services.LessonService;
+import org.itstep.model.*;
+import org.itstep.services.*;
 import org.itstep.util.LessonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -29,13 +23,17 @@ public class LessonController {
     private  final LessonValidator lessonValidator;
     private final GroupService groupService;
     private final GroupLessonService groupLessonService;
+    private final TeacherService teacherService;
+    private final TeacherLessonService teacherLessonService;
 
     @Autowired
-    public LessonController(LessonService lessonService, LessonValidator lessonValidator, GroupService groupService, GroupLessonService groupLessonService) {
+    public LessonController(LessonService lessonService, LessonValidator lessonValidator, GroupService groupService, GroupLessonService groupLessonService, TeacherService teacherService, TeacherLessonService teacherLessonService) {
         this.lessonService = lessonService;
         this.lessonValidator = lessonValidator;
         this.groupService = groupService;
         this.groupLessonService = groupLessonService;
+        this.teacherService = teacherService;
+        this.teacherLessonService = teacherLessonService;
     }
 
 
@@ -88,22 +86,20 @@ public class LessonController {
         return "redirect:/lessons";
     }
     @GetMapping("/group/{id}")
-    public String listLessons(Model model,@PathVariable("id") Long id) {
+    public String listGroupLessons(Model model,@PathVariable("id") Long id) {
         Group group = groupService.findById(id);
         model.addAttribute("group", group);
         model.addAttribute("lessons",lessonService.findByGroups(group));
         return "lessons/groupLessons";
     }
-    // Создаем Map для хранения информации о каждой песне (songId -> songAdded)
-//        Map<Long, Boolean> lessonNoAddedInGroupMap = new HashMap<>();
-//        List<Lesson> lessons = lessonService.findByGroups(group);
-//        for (Lesson lesson : lessons) {
-//            long lessonId = lesson.getId();
-//
-//            boolean lessonNoAdded =!groupLessonService.hasLesson(group.getId(), lessonId);
-//            lessonNoAddedInGroupMap.put(lessonId, lessonNoAdded);
-//        }
-//        model.addAttribute("lessonNoAddedInGroupMap", lessonNoAddedInGroupMap); // Передаем информацию в модель
+
+    @GetMapping("/teacher/{id}")
+    public String listTeacherLessons(Model model,@PathVariable("id") Long id) {
+        Teacher teacher = teacherService.findById(id);
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("lessons",lessonService.findByTeachers(teacher));
+        return "lessons/teacherLessons";
+    }
 
     @GetMapping("/group/{id}/add")
     public String addLessonToGroup(Model model,@PathVariable("id") Long id, @ModelAttribute("groupLesson") GroupLesson groupLesson) {
@@ -121,6 +117,24 @@ public class LessonController {
         model.addAttribute("lessonsNoAdd", lessonsNoAdd);
         return "lessons/addLessonToGroup";
     }
+
+    @GetMapping("/teacher/{id}/add")
+    public String addLessonToTeacher(Model model,@PathVariable("id") Long id, @ModelAttribute("teacherLesson") TeacherLesson teacherLesson) {
+        Teacher teacher = teacherService.findById(id);
+        model.addAttribute("teacher", teacher);
+        List<Lesson> lessons = lessonService.findAll();
+        List<Lesson> lessonsNoAdd = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            long lessonId = lesson.getId();
+            if (teacherLessonService.findByTeacherAndAndLesson(teacher, lessonService.findById(lessonId))==null) {
+                lessonsNoAdd.add(lessonService.findById(lessonId));
+            }
+        }
+        model.addAttribute("lessonsNoAdd", lessonsNoAdd);
+        return "lessons/addLessonToTeacher";
+    }
+
+
 }
 
 
