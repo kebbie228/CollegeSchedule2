@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Schedule {
     @Id
     @Column(name = "schedule_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
 
     @ManyToOne
     @JoinColumn(name="day_id",referencedColumnName ="day_id" )
@@ -39,5 +39,77 @@ public class Schedule {
     @ManyToOne
     @JoinColumn(name="audience_id",referencedColumnName ="audience_id" )
     private Audience audience;
+
+    @ManyToOne
+    @JoinColumn(name="status_id",referencedColumnName ="status_id" )
+    private StatusPari statusPari;
+
+
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Day getDay() {
+        return day;
+    }
+
+    public void setDay(Day day) {
+        this.day = day;
+    }
+
+    public Para getPara() {
+        return para;
+    }
+
+    public void setPara(Para para) {
+        this.para = para;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Lesson getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public Audience getAudience() {
+        return audience;
+    }
+
+    public void setAudience(Audience audience) {
+        this.audience = audience;
+    }
+
+    public StatusPari getStatusPari() {
+        return statusPari;
+    }
+
+    public void setStatusPari(StatusPari statusPari) {
+        this.statusPari = statusPari;
+    }
+
 
 }

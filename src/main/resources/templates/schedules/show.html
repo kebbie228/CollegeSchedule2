@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Show</title>
+</head>
+<body>
+
+<div>
+  <table>
+    <thead>
+    <tr>
+      <th>DayName</th>
+      <th>ParaNumber</th>
+      <th>GroupName</th>
+      <th>LessonName</th>
+      <th>TeacherName</th>
+      <th>ParaNumber</th>
+      <th>AudienceNumber</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="schedule : ${schedules}">
+      <td th:text="${schedule.day.dayName}"></td>
+      <td th:text="${schedule.para.paraNumber}"></td>
+      <td th:text="${schedule.group.groupName}"></td>
+      <td th:text="${schedule.lesson.lessonName}"></td>
+      <td th:text="${schedule.teacher.teacherName}"></td>
+      <td th:text="${schedule.para.paraNumber}"></td>
+      <td th:text="${schedule.audience.audienceNumber}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</br>
+</body>
+</html>

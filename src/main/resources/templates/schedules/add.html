@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Show</title>
+</head>
+<body>
+
+<p th:text="${group.groupName}"></p>
+
+<form th:method="POST" th:action="@{/schedules/addToGroup}" th:object="${newSchedule}">
+
+
+  <label for="day">Выберите день</label>
+  <select id="day" th:field="*{day.id}">
+    <option th:each="day : ${days}" th:value="${day.id}" th:text="${day.dayName}">
+    </option>
+  </select>
+  <br/>
+  <input type="hidden" name="groupId" th:value="${group.getId()}" />
+
+  <label for="para">Выберите пару</label>
+
+  <select id="para" th:field="*{para.id}">
+    <option th:each="para : ${paras}" th:value="${para.id}" th:text="${para.paraNumber}"></option>
+  </select>
+  <br/>
+
+
+  <label for="lesson">Выберите предмет</label>
+  <select id="lesson" th:field="*{lesson.id}">
+    <option th:each="lesson : ${lessons}" th:value="${lesson.id}" th:text="${lesson.lessonName}">
+    </option>
+  </select>
+  <br/>
+
+  <label for="teacher">Выберите препода</label>
+
+  <select id="teacher" th:field="*{teacher.id}">
+    <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.teacherName}">
+    </option>
+  </select>
+  <br/>
+
+
+  <label for="audience">Выберите аудиторию</label>
+
+  <select id="audience" th:field="*{audience.id}">
+    <option th:each="audience : ${audiences}" th:value="${audience.id}" th:text="${audience.audienceNumber}">
+    </option>
+  </select>
+  <br/>
+
+
+  <label for="status">Выберите состояние пары</label>
+  <select id="status" th:field="*{statusPari.id}">
+    <option th:each="statusPari : ${statuses}" th:value="${statusPari.id}" th:text="${statusPari.statusPariName}">
+    </option>
+  </select>
+  <br/>
+
+  <input type="submit" value="Create!"/>
+</form>
+
+</body>
+</html>

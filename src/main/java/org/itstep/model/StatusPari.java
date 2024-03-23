@@ -7,20 +7,19 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Para {
+public class StatusPari {
     @Id
-    @Column(name = "para_id")
+    @Column(name = "status_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "para_number")
-    private int paraNumber;
+    @Column(name = "status_pari")
+    private String statusPariName;
 
-    @OneToMany(mappedBy = "para")
+    @OneToMany(mappedBy = "statusPari")
     private List<Schedule> scheduleList;
 }

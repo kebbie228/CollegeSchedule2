@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Show</title>
+</head>
+<body>
+
+<div>
+  <table border="1">
+    <thead>
+    <tr>
+      <th>DayName</th>
+      <th>ParaNumber</th>
+      <th>GroupName</th>
+      <th>LessonName</th>
+      <th>TeacherName</th>
+      <th>ParaNumber</th>
+      <th>AudienceNumber</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="schedule : ${scheduleGroup}">
+      <td th:text="${schedule.day.dayName}"></td>
+      <td th:text="${schedule.para.paraNumber}"></td>
+      <td th:text="${schedule.group.groupName}"></td>
+      <td th:text="${schedule.lesson.lessonName}"></td>
+      <td th:text="${schedule.teacher.teacherName}"></td>
+      <td th:text="${schedule.para.paraNumber}"></td>
+      <td th:text="${schedule.audience.audienceNumber}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div>
+  <p th:text="${group.groupName}" ></p>
+  <table border="1">
+    <thead>
+    <tr>
+      <th>Пара</th>
+      <th>Предмет</th>
+      <th>Аудитория</th>
+      <th>статус</th>
+      <th>День недели</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="schedule, iterStat : ${scheduleGroup}">
+      <td th:text="${schedule.para.paraNumber}"></td>
+      <td th:text="${schedule.lesson.lessonName}"></td>
+      <td th:text="${schedule.audience.audienceNumber}"></td>
+      <td th:text="${schedule.statusPari.statusPariName}"></td>
+      <td>
+
+        <form th:method="DELETE" th:action="@{/schedules/group/delete}">
+          <input type="hidden" name="scheduleId" th:value="${schedule.getId()}" />
+          <input type="hidden" name="groupId" th:value="${group.getId()}" />
+          <input type="submit" class="btn btn-danger ml-2" value="Delete"/>
+        </form>
+      </td>
+<!--      <td th:if="${iterStat.index % 3 == 0}" rowspan="3" th:text="${schedule.day.dayName}"-->
+<!--          style="writing-mode: vertical-rl; text-align: center;">-->
+<!--      </td>-->
+            <td  th:text="${schedule.day.dayName}"
+                style="writing-mode: vertical-rl; text-align: center;">
+            </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<a th:href="@{/schedules/group/{id}/add(id=${group.getId()})}">добавить расписание группы
+</a>
+
+<!--<table border="1">-->
+<!--  <tr>-->
+
+<!--    <th>para_number</th>-->
+<!--    <th>lesson_name</th>-->
+<!--    <th>audience_number</th>-->
+<!--    <th></th>-->
+
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>1</td>-->
+<!--    <td>Математика</td>-->
+<!--    <td>101</td>-->
+<!--    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Понедельник</th>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>2</td>-->
+<!--    <td>Физика</td>-->
+<!--    <td>102</td>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>3</td>-->
+<!--    <td>Химия</td>-->
+<!--    <td>103</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>4</td>-->
+<!--    <td>Физра</td>-->
+<!--    <td>104</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>5</td>-->
+<!--    <td>Русский</td>-->
+<!--    <td>105</td>-->
+<!--  </tr>-->
+<!--  <tr></tr>-->
+<!--  <tr>-->
+<!--    <td>1</td>-->
+<!--    <td>Математика</td>-->
+<!--    <td>101</td>-->
+<!--    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Вторник</th>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>2</td>-->
+<!--    <td>Физика</td>-->
+<!--    <td>102</td>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>3</td>-->
+<!--    <td>Химия</td>-->
+<!--    <td>103</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>4</td>-->
+<!--    <td>Физра</td>-->
+<!--    <td>104</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>5</td>-->
+<!--    <td>Русский</td>-->
+<!--    <td>105</td>-->
+<!--  </tr>-->
+<!--  <tr></tr>-->
+<!--  <tr>-->
+<!--    <td>1</td>-->
+<!--    <td>Математика</td>-->
+<!--    <td>101</td>-->
+<!--    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Среда</th>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>2</td>-->
+<!--    <td>Физика</td>-->
+<!--    <td>102</td>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>3</td>-->
+<!--    <td>Химия</td>-->
+<!--    <td>103</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>4</td>-->
+<!--    <td>Физра</td>-->
+<!--    <td>104</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>5</td>-->
+<!--    <td>Русский</td>-->
+<!--    <td>105</td>-->
+<!--  </tr>-->
+<!--  <tr></tr>-->
+<!--  <tr>-->
+<!--    <td>1</td>-->
+<!--    <td>Математика</td>-->
+<!--    <td>101</td>-->
+<!--    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Четверг</th>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>2</td>-->
+<!--    <td>Физика</td>-->
+<!--    <td>102</td>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>3</td>-->
+<!--    <td>Химия</td>-->
+<!--    <td>103</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>4</td>-->
+<!--    <td>Физра</td>-->
+<!--    <td>104</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>5</td>-->
+<!--    <td>Русский</td>-->
+<!--    <td>105</td>-->
+<!--  </tr>-->
+<!--  <tr></tr>-->
+<!--  <tr>-->
+<!--    <td>1</td>-->
+<!--    <td>Математика</td>-->
+<!--    <td>101</td>-->
+<!--    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Пятница</th>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>2</td>-->
+<!--    <td>Физика</td>-->
+<!--    <td>102</td>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>3</td>-->
+<!--    <td>Химия</td>-->
+<!--    <td>103</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>4</td>-->
+<!--    <td>Физра</td>-->
+<!--    <td>104</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>5</td>-->
+<!--    <td>Русский</td>-->
+<!--    <td>105</td>-->
+<!--  </tr>-->
+<!--  <tr></tr>-->
+<!--  <tr>-->
+<!--    <td>1</td>-->
+<!--    <td>Математика</td>-->
+<!--    <td>101</td>-->
+<!--    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Суббота</th>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>2</td>-->
+<!--    <td>Физика</td>-->
+<!--    <td>102</td>-->
+<!--  </tr>-->
+
+<!--  <tr>-->
+<!--    <td>3</td>-->
+<!--    <td>Химия</td>-->
+<!--    <td>103</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>4</td>-->
+<!--    <td>Физра</td>-->
+<!--    <td>104</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>5</td>-->
+<!--    <td>Русский</td>-->
+<!--    <td>105</td>-->
+<!--  </tr>-->
+
+<!--</table>-->
+
+</body>
+</html>
