@@ -3,6 +3,7 @@ package org.itstep.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.jsf.FacesContextUtils;
 
 
 import javax.persistence.*;
@@ -26,12 +27,15 @@ public class Lesson {
     @Size(min = 2, max = 20, message = "Название предмета не должно превышать 20 символов")
     private String lessonName;
 
-    @ManyToMany(mappedBy = "groupLessons",cascade = CascadeType.REFRESH)
-    private List<Group> groups;
 
-    @ManyToMany(mappedBy = "teacherLessons",cascade = CascadeType.REFRESH)
+
+    @ManyToMany(mappedBy = "teacherLessons")
     private List<Teacher> teachers;
 
-    @OneToMany(mappedBy = "lesson")
+    @ManyToMany(mappedBy = "lessons",cascade = CascadeType.REFRESH)
+    private List<Group> groups;
+
+
+    @OneToMany(mappedBy = "lesson",cascade = CascadeType.PERSIST)
     private List<Schedule> scheduleList;
 }

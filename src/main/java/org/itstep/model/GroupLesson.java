@@ -12,9 +12,11 @@ public class GroupLesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
+
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;

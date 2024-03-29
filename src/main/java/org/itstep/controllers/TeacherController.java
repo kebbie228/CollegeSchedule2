@@ -77,6 +77,14 @@ public class TeacherController {
     }
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
+
+        Teacher teacher=teacherService.findById(id);
+        teacher.getScheduleList().forEach(schedule -> {
+            schedule.setLesson(null);
+            schedule.setAudience(null);
+            schedule.setTeacher(null);
+        });
+
         teacherService.delete(id);
         return "redirect:/teachers";
     }

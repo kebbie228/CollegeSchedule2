@@ -45,6 +45,9 @@ public class ScheduleService {
     public List<Schedule> findByGroup(Group group) {
         return scheduleRepository.findByGroupOrderByDayAscParaAsc(group);
     }
+    public List<Schedule> findByGroupAndDayIdOrderByDayAscParaAsc(Group group,Long dayId) {
+        return scheduleRepository.findByGroupAndDayIdOrderByDayAscParaAsc(group,dayId);
+    }
     public List<Schedule> findByTeacher(Teacher teacher) {
         return scheduleRepository.findByTeacher(teacher);
     }

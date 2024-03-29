@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="schedule2@localhost" uuid="1b6548ad-ae2f-42a9-90a1-8332c977170c">
+    <data-source source="LOCAL" name="schedule2@localhost" uuid="8c796a0a-d334-4c70-af3f-e471f2217813">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <configured-by-url>true</configured-by-url>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/schedule2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>

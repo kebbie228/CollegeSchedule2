@@ -2,7 +2,8 @@ package org.itstep.controllers;
 
 import org.itstep.model.Group;
 
-import org.itstep.services.GroupService;
+import org.itstep.model.Schedule;
+import org.itstep.services.*;
 import org.itstep.util.GroupValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,21 @@ public class GroupController {
 
     private final GroupService groupService;
     private  final GroupValidator groupValidator;
+    private final DayService dayService;
+
+    private final ParaService paraService;
+
+
+    private final ScheduleService scheduleService;
+
 
     @Autowired
-    public GroupController(GroupService groupService, GroupValidator groupValidator) {
+    public GroupController(GroupService groupService, GroupValidator groupValidator, DayService dayService,  ParaService paraService, ScheduleService scheduleService) {
         this.groupService = groupService;
         this.groupValidator = groupValidator;
+        this.dayService = dayService;
+        this.paraService = paraService;
+        this.scheduleService = scheduleService;
     }
 
 
@@ -41,15 +52,34 @@ public class GroupController {
     @GetMapping("/new")
     public String newGroup( @ModelAttribute("group") Group group) {
         return "groups/new";
+
     }
+
+//    @PostMapping()
+//    public String create(@ModelAttribute("group") @Valid Group group,
+//                         BindingResult bindingResult) {
+//        groupValidator.validate(group,bindingResult);
+//        if (bindingResult.hasErrors()) return "groups/new";
+//        groupService.save(group);
+//        return "redirect:/groups";
+//    }
 
     @PostMapping()
     public String create(@ModelAttribute("group") @Valid Group group,
                          BindingResult bindingResult) {
         groupValidator.validate(group,bindingResult);
-        if (bindingResult.hasErrors())
-            return "groups/new";
+        if (bindingResult.hasErrors()) return "groups/new";
         groupService.save(group);
+        for(int i=1;i<=6;i++){
+
+            for(int j=1;j<6;j++){
+                Schedule schedule=new Schedule();
+                schedule.setDay(dayService.findById((long) i));
+                schedule.setPara(paraService.findById((long) j));
+                schedule.setGroup(group);
+                scheduleService.save(schedule);
+            }
+        }
         return "redirect:/groups";
     }
 

@@ -9,7 +9,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
 
     List<Schedule> findByGroupOrderByDayAscParaAsc (Group group);
     List<Schedule> findByTeacher (Teacher teacher);
-
+    List<Schedule> findByGroupAndDayIdOrderByDayAscParaAsc (Group group,Long dayId);
 
     boolean existsByGroupAndDayAndPara(Group group, Day day, Para para);
 

@@ -40,9 +40,6 @@ public class Schedule {
     @JoinColumn(name="audience_id",referencedColumnName ="audience_id" )
     private Audience audience;
 
-    @ManyToOne
-    @JoinColumn(name="status_id",referencedColumnName ="status_id" )
-    private StatusPari statusPari;
 
 
 
@@ -103,13 +100,7 @@ public class Schedule {
         this.audience = audience;
     }
 
-    public StatusPari getStatusPari() {
-        return statusPari;
-    }
 
-    public void setStatusPari(StatusPari statusPari) {
-        this.statusPari = statusPari;
-    }
 
 
 }

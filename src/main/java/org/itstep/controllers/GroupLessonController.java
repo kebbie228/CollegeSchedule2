@@ -27,7 +27,7 @@ private final LessonService lessonService;
     //delete lesson in group
     @DeleteMapping("/deleteLessonFromGroup/{id1}/{id2}")
     public String delete(@PathVariable("id1") long id1, @PathVariable("id2") long id2){
-       Group group=  groupService.findById(id1);
+        Group group=  groupService.findById(id1);
         Lesson lesson= lessonService.findById(id2);
         groupLessonService.delete(groupLessonService.findByGroupAndLesson(group,lesson));
         String redirectUrl = "redirect:/lessons/group/" + id1;

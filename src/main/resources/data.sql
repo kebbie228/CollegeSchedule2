@@ -5,6 +5,8 @@ INSERT INTO day(day_name) VALUES('Четверг');
 INSERT INTO day(day_name) VALUES('Пятница');
 INSERT INTO day(day_name) VALUES('Суббота');
 
+
+
 INSERT INTO audience(audience_number) VALUES(101);
 INSERT INTO audience(audience_number) VALUES(102);
 INSERT INTO audience(audience_number) VALUES(103);
@@ -37,3 +39,4 @@ INSERT INTO para(para_number) VALUES(5);
 --     audience_id, day_id, group_id, lesson_id, para_id, teacher_id
 -- )
 -- VALUES(1,1,1,2,1);
+

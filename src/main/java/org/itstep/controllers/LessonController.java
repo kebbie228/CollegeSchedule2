@@ -25,15 +25,17 @@ public class LessonController {
     private final GroupLessonService groupLessonService;
     private final TeacherService teacherService;
     private final TeacherLessonService teacherLessonService;
+    private final ScheduleService scheduleService;
 
     @Autowired
-    public LessonController(LessonService lessonService, LessonValidator lessonValidator, GroupService groupService, GroupLessonService groupLessonService, TeacherService teacherService, TeacherLessonService teacherLessonService) {
+    public LessonController(LessonService lessonService, LessonValidator lessonValidator, GroupService groupService, GroupLessonService groupLessonService, TeacherService teacherService, TeacherLessonService teacherLessonService, ScheduleService scheduleService) {
         this.lessonService = lessonService;
         this.lessonValidator = lessonValidator;
         this.groupService = groupService;
         this.groupLessonService = groupLessonService;
         this.teacherService = teacherService;
         this.teacherLessonService = teacherLessonService;
+        this.scheduleService = scheduleService;
     }
 
 
@@ -82,6 +84,21 @@ public class LessonController {
     }
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
+       Lesson lesson= lessonService.findById(id);
+        for(Group group: lesson.getGroups()){
+            group.getLessons().remove(lesson);
+            groupService.save(group);
+        }
+        for(Teacher teacher: lesson.getTeachers()){
+            teacher.getTeacherLessons().remove(lesson);
+            teacherService.save(teacher);
+        }
+        lesson.getScheduleList().forEach(schedule -> {
+            schedule.setLesson(null);
+            schedule.setAudience(null);
+            schedule.setTeacher(null);
+        });
+
         lessonService.delete(id);
         return "redirect:/lessons";
     }

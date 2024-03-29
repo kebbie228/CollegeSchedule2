@@ -1,38 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <head>
   <meta charset="UTF-8">
   <title>Show</title>
 </head>
 <body>
-
-<div>
-  <table border="1">
-    <thead>
-    <tr>
-      <th>DayName</th>
-      <th>ParaNumber</th>
-      <th>GroupName</th>
-      <th>LessonName</th>
-      <th>TeacherName</th>
-      <th>ParaNumber</th>
-      <th>AudienceNumber</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="schedule : ${scheduleGroup}">
-      <td th:text="${schedule.day.dayName}"></td>
-      <td th:text="${schedule.para.paraNumber}"></td>
-      <td th:text="${schedule.group.groupName}"></td>
-      <td th:text="${schedule.lesson.lessonName}"></td>
-      <td th:text="${schedule.teacher.teacherName}"></td>
-      <td th:text="${schedule.para.paraNumber}"></td>
-      <td th:text="${schedule.audience.audienceNumber}"></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
 
 <div>
   <p th:text="${group.groupName}" ></p>
@@ -41,223 +16,160 @@
     <tr>
       <th>Пара</th>
       <th>Предмет</th>
+      <th>Преподаватель</th>
       <th>Аудитория</th>
-      <th>статус</th>
-      <th>День недели</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="schedule, iterStat : ${scheduleGroup}">
-      <td th:text="${schedule.para.paraNumber}"></td>
-      <td th:text="${schedule.lesson.lessonName}"></td>
-      <td th:text="${schedule.audience.audienceNumber}"></td>
-      <td th:text="${schedule.statusPari.statusPariName}"></td>
+      <td th:text="${schedule.para?.paraNumber}"></td>
+      <td th:text="${schedule.lesson?.lessonName}"></td>
+      <td th:text="${schedule.teacher?.teacherName}"></td>
+      <td th:text="${schedule.audience?.audienceNumber}"></td>
       <td>
-
-        <form th:method="DELETE" th:action="@{/schedules/group/delete}">
-          <input type="hidden" name="scheduleId" th:value="${schedule.getId()}" />
-          <input type="hidden" name="groupId" th:value="${group.getId()}" />
-          <input type="submit" class="btn btn-danger ml-2" value="Delete"/>
-        </form>
+        <button class="btn btn-warning">
+          <a th:href="@{/schedules/{id1}/editGroup/{id2}(id1=${schedule.getId()},id2=${group.getId()})}">
+            Редактировать
+          </a>
+        </button>
       </td>
-      <!--      <td th:if="${iterStat.index % 3 == 0}" rowspan="3" th:text="${schedule.day.dayName}"-->
-      <!--          style="writing-mode: vertical-rl; text-align: center;">-->
-      <!--      </td>-->
-      <td  th:text="${schedule.day.dayName}"
-           style="writing-mode: vertical-rl; text-align: center;">
+
+      <td th:if="${iterStat.index % 5 == 0}" rowspan="5" th:text="${schedule.day?.dayName}"
+          style="writing-mode: vertical-rl; text-align: center;">
       </td>
     </tr>
     </tbody>
   </table>
 </div>
-<a th:href="@{/schedules/group/{id}/add(id=${group.getId()})}">добавить расписание группы
-</a>
 
-<table border="1">
-  <tr>
 
-    <th>para_number</th>
-    <th>lesson_name</th>
-    <th>audience_number</th>
-    <th></th>
+<div>
+  <p th:text="${group.groupName}" ></p>
+  <table border="1">
+    <thead>
+    <tr>
+      <th>Пара</th>
+      <th>Предмет</th>
+      <th>Преподаватель</th>
+      <th>Аудитория</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="schedule, iterStat : ${scheduleTeacher}">
+      <td th:text="${schedule.para?.paraNumber}"></td>
+      <td th:text="${schedule.lesson?.lessonName}"></td>
+      <td th:text="${schedule.teacher?.teacherName}"></td>
+      <td th:text="${schedule.audience?.audienceNumber}"></td>
+      <td>
+        <button class="btn btn-warning">
+          <a th:href="@{/schedules/{id1}/editGroup/{id2}(id1=${schedule.getId()},id2=${group.getId()})}">
+            Редактировать
+          </a>
+        </button>
+      </td>
 
-  </tr>
+      <td th:if="${iterStat.index % 5 == 0}" rowspan="5" th:text="${schedule.day?.dayName}"
+          style="writing-mode: vertical-rl; text-align: center;">
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-  <tr>
-    <td>1</td>
-    <td>Математика</td>
-    <td>101</td>
-    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Понедельник</th>
-  </tr>
 
-  <tr>
-    <td>2</td>
-    <td>Физика</td>
-    <td>102</td>
-  </tr>
 
-  <tr>
-    <td>3</td>
-    <td>Химия</td>
-    <td>103</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Физра</td>
-    <td>104</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>Русский</td>
-    <td>105</td>
-  </tr>
-  <tr></tr>
-  <tr>
-    <td>1</td>
-    <td>Математика</td>
-    <td>101</td>
-    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Вторник</th>
-  </tr>
 
-  <tr>
-    <td>2</td>
-    <td>Физика</td>
-    <td>102</td>
-  </tr>
 
-  <tr>
-    <td>3</td>
-    <td>Химия</td>
-    <td>103</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Физра</td>
-    <td>104</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>Русский</td>
-    <td>105</td>
-  </tr>
-  <tr></tr>
-  <tr>
-    <td>1</td>
-    <td>Математика</td>
-    <td>101</td>
-    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Среда</th>
-  </tr>
 
-  <tr>
-    <td>2</td>
-    <td>Физика</td>
-    <td>102</td>
-  </tr>
+<!--        <form th:method="DELETE" th:action="@{/schedules/group/delete}">-->
+<!--          <input type="hidden" name="scheduleId" th:value="${schedule.getId()}" />-->
+<!--          <input type="hidden" name="groupId" th:value="${group.getId()}" />-->
+<!--          <input type="submit" class="btn btn-danger ml-2" value="Delete"/>-->
+<!--        </form>-->
 
-  <tr>
-    <td>3</td>
-    <td>Химия</td>
-    <td>103</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Физра</td>
-    <td>104</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>Русский</td>
-    <td>105</td>
-  </tr>
-  <tr></tr>
-  <tr>
-    <td>1</td>
-    <td>Математика</td>
-    <td>101</td>
-    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Четверг</th>
-  </tr>
+<!--<table border="1">-->
+<!--  <tr>-->
+<!--    <th>para_number</th>-->
+<!--    <th>lesson_name</th>-->
+<!--    <th>audience_number</th>-->
+<!--    <th></th>-->
+<!--  </tr>-->
+<!--  <th:block th:each="index : ${#numbers.sequence(1,5)}">-->
+<!--    <tr>-->
+<!--      <th:block th:if="${index &lt;= #lists.size(scheduleGroupMonday)}">-->
+<!--        <td th:text="${scheduleGroupMonday[index - 1].para != null ? scheduleGroupMonday[index - 1].para.paraNumber : ''}"></td>-->
+<!--        <td th:text="${scheduleGroupMonday[index - 1].lesson != null ? scheduleGroupMonday[index - 1].lesson.lessonName : ''}"></td>-->
+<!--        <td th:text="${scheduleGroupMonday[index - 1].audience != null ? scheduleGroupMonday[index - 1].audience.audienceNumber : ''}"></td>-->
+<!--        <td><button class="btn btn-warning">Редактировать</button></td>-->
+<!--        <td><button class="btn btn-success">Добавить</button></td>-->
+<!--        <td><button class="btn btn-danger">Удалить</button></td>-->
+<!--      </th:block>-->
+<!--      <th:block th:unless="${index &lt;= #lists.size(scheduleGroupMonday)}">-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td><button class="btn btn-warning">Редактировать</button></td>-->
+<!--        <td><button class="btn btn-success">Добавить</button></td>-->
+<!--        <td><button class="btn btn-danger">Удалить</button></td>-->
+<!--      </th:block>-->
+<!--    </tr>-->
+<!--  </th:block>-->
+<!--</table>-->
 
-  <tr>
-    <td>2</td>
-    <td>Физика</td>
-    <td>102</td>
-  </tr>
 
-  <tr>
-    <td>3</td>
-    <td>Химия</td>
-    <td>103</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Физра</td>
-    <td>104</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>Русский</td>
-    <td>105</td>
-  </tr>
-  <tr></tr>
-  <tr>
-    <td>1</td>
-    <td>Математика</td>
-    <td>101</td>
-    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Пятница</th>
-  </tr>
+<!--<table border="1">-->
+<!--  <tr>-->
+<!--    <th>para_number</th>-->
+<!--    <th>lesson_name</th>-->
+<!--    <th>audience_number</th>-->
+<!--    <th></th>-->
+<!--  </tr>-->
+<!--  <th:block th:each="index : ${#numbers.sequence(1,5)}">-->
+<!--    <tr>-->
+<!--      <th:block th:if="${#lists.isEmpty(scheduleGroupMonday)}">-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td></td>-->
+<!--        <td><button class="btn btn-warning">Редактировать</button></td>-->
+<!--        <td><button class="btn btn-success">Добавить</button></td>-->
+<!--        <td><button class="btn btn-danger">Удалить</button></td>-->
+<!--      </th:block>-->
 
-  <tr>
-    <td>2</td>
-    <td>Физика</td>
-    <td>102</td>
-  </tr>
+<!--      <th:block th:unless="${#lists.isEmpty(scheduleGroupMonday)}">-->
+<!--        <th:block th:if="${index &lt;= scheduleGroupMonday.size()}">-->
+<!--          <td th:if="${scheduleGroupMonday[index - 1] != null and scheduleGroupMonday[index - 1].para != null}" th:text="${scheduleGroupMonday[index - 1].para.paraNumber}"></td>-->
+<!--          <td th:if="${scheduleGroupMonday[index - 1] != null and scheduleGroupMonday[index - 1].para == null}"></td>-->
 
-  <tr>
-    <td>3</td>
-    <td>Химия</td>
-    <td>103</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Физра</td>
-    <td>104</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>Русский</td>
-    <td>105</td>
-  </tr>
-  <tr></tr>
-  <tr>
-    <td>1</td>
-    <td>Математика</td>
-    <td>101</td>
-    <th rowspan="5" style=" writing-mode: vertical-rl; text-align: center; ">Суббота</th>
-  </tr>
 
-  <tr>
-    <td>2</td>
-    <td>Физика</td>
-    <td>102</td>
-  </tr>
 
-  <tr>
-    <td>3</td>
-    <td>Химия</td>
-    <td>103</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Физра</td>
-    <td>104</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>Русский</td>
-    <td>105</td>
-  </tr>
-
-</table>
+<!--&lt;!&ndash;          <td th:if="${scheduleGroupMonday[index - 1] != null}" th:text="${scheduleGroupMonday[index - 1].para != null ? scheduleGroupMonday[index - 1].para.paraNumber : ''}"></td>&ndash;&gt;-->
+<!--          <td th:if="${scheduleGroupMonday[index - 1] != null}" th:text="${scheduleGroupMonday[index - 1].lesson.lessonName}"></td>-->
+<!--          <td th:if="${scheduleGroupMonday[index - 1] != null}" th:text="${scheduleGroupMonday[index - 1].audience.audienceNumber}"></td>-->
+<!--          <td><button class="btn btn-warning">Редактировать</button></td>-->
+<!--          <td><button class="btn btn-success">Добавить</button></td>-->
+<!--          <td><button class="btn btn-danger">Удалить</button></td>-->
+<!--        </th:block>-->
+<!--        <th:block th:unless="${index &lt;= scheduleGroupMonday.size()}">-->
+<!--          <td></td>-->
+<!--          <td></td>-->
+<!--          <td></td>-->
+<!--          <td><button class="btn btn-warning">Редактировать</button></td>-->
+<!--          <td><button class="btn btn-success">Добавить</button></td>-->
+<!--          <td><button class="btn btn-danger">Удалить</button></td>-->
+<!--        </th:block>-->
+<!--      </th:block>-->
+<!--    </tr>-->
+<!--  </th:block>-->
+<!--</table>-->
 
 </body>
-</html>
+</html><!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Show</title>
+</head>
+<body>

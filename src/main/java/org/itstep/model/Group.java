@@ -30,9 +30,11 @@ public class Group {
             joinColumns = @JoinColumn(name="group_id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_id")
     )
-    private List<Lesson> groupLessons;
+    private List<Lesson> lessons;
 
-    @OneToMany(mappedBy = "group")
+
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList;
 
 }
