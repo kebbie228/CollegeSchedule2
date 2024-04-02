@@ -26,14 +26,31 @@
       <td th:text="${schedule.lesson?.lessonName}"></td>
       <td th:text="${schedule.teacher?.teacherName}"></td>
       <td th:text="${schedule.audience?.audienceNumber}"></td>
-      <td>
-        <button class="btn btn-warning">
-          <a th:href="@{/schedules/{id1}/editGroup/{id2}(id1=${schedule.getId()},id2=${group.getId()})}">
-            Редактировать
-          </a>
-        </button>
-      </td>
+      <td align="center">
 
+        <th:block th:if="${schedule.lesson!=null}">
+
+          <form th:method="PATCH" th:action="@{/schedules/editGroup}" >
+            <input type="hidden" name="scheduleId" th:value="${schedule.id}" />
+            <input type="hidden" name="groupId" th:value="${group.getId()}" />
+            <input type="hidden" name="para.id" th:value="${schedule.para?.id}" />
+            <input type="hidden" name="day.id" th:value="${schedule.day?.id}" />
+            <input type="hidden" name="teacher.id" th:value="${schedule.teacher.id}" />
+            <input type="submit" class="btn btn-danger" value="  Удалить "/>
+          </form>
+
+        </th:block>
+
+        <th:block th:unless="${schedule.lesson!=null}">
+
+          <button class="btn btn-success ">
+            <a class="text-white" th:href="@{/schedules/{id1}/editAddScheduleGroup/{id2}(id1=${schedule.getId()},id2=${group.getId()})}">
+              Добавить
+            </a>
+          </button>
+
+        </th:block>
+      </td>
       <td th:if="${iterStat.index % 5 == 0}" rowspan="5" th:text="${schedule.day?.dayName}"
           style="writing-mode: vertical-rl; text-align: center;">
       </td>
@@ -41,126 +58,6 @@
     </tbody>
   </table>
 </div>
-
-
-<div>
-  <p th:text="${group.groupName}" ></p>
-  <table border="1">
-    <thead>
-    <tr>
-      <th>Пара</th>
-      <th>Предмет</th>
-      <th>Преподаватель</th>
-      <th>Аудитория</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="schedule, iterStat : ${scheduleTeacher}">
-      <td th:text="${schedule.para?.paraNumber}"></td>
-      <td th:text="${schedule.lesson?.lessonName}"></td>
-      <td th:text="${schedule.teacher?.teacherName}"></td>
-      <td th:text="${schedule.audience?.audienceNumber}"></td>
-      <td>
-        <button class="btn btn-warning">
-          <a th:href="@{/schedules/{id1}/editGroup/{id2}(id1=${schedule.getId()},id2=${group.getId()})}">
-            Редактировать
-          </a>
-        </button>
-      </td>
-
-      <td th:if="${iterStat.index % 5 == 0}" rowspan="5" th:text="${schedule.day?.dayName}"
-          style="writing-mode: vertical-rl; text-align: center;">
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-
-
-
-
-
-
-<!--        <form th:method="DELETE" th:action="@{/schedules/group/delete}">-->
-<!--          <input type="hidden" name="scheduleId" th:value="${schedule.getId()}" />-->
-<!--          <input type="hidden" name="groupId" th:value="${group.getId()}" />-->
-<!--          <input type="submit" class="btn btn-danger ml-2" value="Delete"/>-->
-<!--        </form>-->
-
-<!--<table border="1">-->
-<!--  <tr>-->
-<!--    <th>para_number</th>-->
-<!--    <th>lesson_name</th>-->
-<!--    <th>audience_number</th>-->
-<!--    <th></th>-->
-<!--  </tr>-->
-<!--  <th:block th:each="index : ${#numbers.sequence(1,5)}">-->
-<!--    <tr>-->
-<!--      <th:block th:if="${index &lt;= #lists.size(scheduleGroupMonday)}">-->
-<!--        <td th:text="${scheduleGroupMonday[index - 1].para != null ? scheduleGroupMonday[index - 1].para.paraNumber : ''}"></td>-->
-<!--        <td th:text="${scheduleGroupMonday[index - 1].lesson != null ? scheduleGroupMonday[index - 1].lesson.lessonName : ''}"></td>-->
-<!--        <td th:text="${scheduleGroupMonday[index - 1].audience != null ? scheduleGroupMonday[index - 1].audience.audienceNumber : ''}"></td>-->
-<!--        <td><button class="btn btn-warning">Редактировать</button></td>-->
-<!--        <td><button class="btn btn-success">Добавить</button></td>-->
-<!--        <td><button class="btn btn-danger">Удалить</button></td>-->
-<!--      </th:block>-->
-<!--      <th:block th:unless="${index &lt;= #lists.size(scheduleGroupMonday)}">-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--        <td><button class="btn btn-warning">Редактировать</button></td>-->
-<!--        <td><button class="btn btn-success">Добавить</button></td>-->
-<!--        <td><button class="btn btn-danger">Удалить</button></td>-->
-<!--      </th:block>-->
-<!--    </tr>-->
-<!--  </th:block>-->
-<!--</table>-->
-
-
-<!--<table border="1">-->
-<!--  <tr>-->
-<!--    <th>para_number</th>-->
-<!--    <th>lesson_name</th>-->
-<!--    <th>audience_number</th>-->
-<!--    <th></th>-->
-<!--  </tr>-->
-<!--  <th:block th:each="index : ${#numbers.sequence(1,5)}">-->
-<!--    <tr>-->
-<!--      <th:block th:if="${#lists.isEmpty(scheduleGroupMonday)}">-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--        <td></td>-->
-<!--        <td><button class="btn btn-warning">Редактировать</button></td>-->
-<!--        <td><button class="btn btn-success">Добавить</button></td>-->
-<!--        <td><button class="btn btn-danger">Удалить</button></td>-->
-<!--      </th:block>-->
-
-<!--      <th:block th:unless="${#lists.isEmpty(scheduleGroupMonday)}">-->
-<!--        <th:block th:if="${index &lt;= scheduleGroupMonday.size()}">-->
-<!--          <td th:if="${scheduleGroupMonday[index - 1] != null and scheduleGroupMonday[index - 1].para != null}" th:text="${scheduleGroupMonday[index - 1].para.paraNumber}"></td>-->
-<!--          <td th:if="${scheduleGroupMonday[index - 1] != null and scheduleGroupMonday[index - 1].para == null}"></td>-->
-
-
-
-<!--&lt;!&ndash;          <td th:if="${scheduleGroupMonday[index - 1] != null}" th:text="${scheduleGroupMonday[index - 1].para != null ? scheduleGroupMonday[index - 1].para.paraNumber : ''}"></td>&ndash;&gt;-->
-<!--          <td th:if="${scheduleGroupMonday[index - 1] != null}" th:text="${scheduleGroupMonday[index - 1].lesson.lessonName}"></td>-->
-<!--          <td th:if="${scheduleGroupMonday[index - 1] != null}" th:text="${scheduleGroupMonday[index - 1].audience.audienceNumber}"></td>-->
-<!--          <td><button class="btn btn-warning">Редактировать</button></td>-->
-<!--          <td><button class="btn btn-success">Добавить</button></td>-->
-<!--          <td><button class="btn btn-danger">Удалить</button></td>-->
-<!--        </th:block>-->
-<!--        <th:block th:unless="${index &lt;= scheduleGroupMonday.size()}">-->
-<!--          <td></td>-->
-<!--          <td></td>-->
-<!--          <td></td>-->
-<!--          <td><button class="btn btn-warning">Редактировать</button></td>-->
-<!--          <td><button class="btn btn-success">Добавить</button></td>-->
-<!--          <td><button class="btn btn-danger">Удалить</button></td>-->
-<!--        </th:block>-->
-<!--      </th:block>-->
-<!--    </tr>-->
-<!--  </th:block>-->
-<!--</table>-->
 
 </body>
 </html><!DOCTYPE html>

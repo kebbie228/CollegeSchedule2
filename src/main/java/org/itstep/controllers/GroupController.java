@@ -3,6 +3,7 @@ package org.itstep.controllers;
 import org.itstep.model.Group;
 
 import org.itstep.model.Schedule;
+import org.itstep.model.Teacher;
 import org.itstep.services.*;
 import org.itstep.util.GroupValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,14 @@ public class GroupController {
     }
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
+        Group group=groupService.findById(id);
+        group.getScheduleTeacherList().forEach(scheduleTeacher -> {
+            scheduleTeacher.setLesson(null);
+            scheduleTeacher.setAudience(null);
+            scheduleTeacher.setGroup(null);
+        });
+
+
         groupService.delete(id);
         return "redirect:/groups";
     }

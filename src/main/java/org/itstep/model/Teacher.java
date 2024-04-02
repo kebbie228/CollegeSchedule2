@@ -35,4 +35,7 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher")
     private List<Schedule> scheduleList;
+
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    private List<ScheduleTeacher> scheduleTeacherList;
 }

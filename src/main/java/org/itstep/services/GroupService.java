@@ -47,7 +47,9 @@ public class GroupService {
         Optional<Group> foundGroup= Optional.ofNullable(groupRepository.findByGroupName(groupName));
         return foundGroup.orElse(null);
     }
-
+    public List<Group> findByGroupNameContainingIgnoreCase(String firstLetters){
+        return  groupRepository.findByGroupNameContainingIgnoreCase(firstLetters);
+    }
 
 
 }

@@ -1,7 +1,9 @@
 package org.itstep.controllers;
 
+import org.itstep.model.Schedule;
+import org.itstep.model.ScheduleTeacher;
 import org.itstep.model.Teacher;
-import org.itstep.services.TeacherService;
+import org.itstep.services.*;
 import org.itstep.util.TeacherValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,11 +20,20 @@ public class TeacherController {
 
     private final TeacherService teacherService;
     private final TeacherValidator teacherValidator;
+    private final DayService dayService;
+
+    private final ParaService paraService;
+
+
+    private final ScheduleTeacherService scheduleTeacherService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService, TeacherValidator teacherValidator) {
+    public TeacherController(TeacherService teacherService, TeacherValidator teacherValidator, DayService dayService, ParaService paraService, ScheduleTeacherService scheduleTeacherService) {
         this.teacherService = teacherService;
         this.teacherValidator = teacherValidator;
+        this.dayService = dayService;
+        this.paraService = paraService;
+        this.scheduleTeacherService = scheduleTeacherService;
     }
 
 
@@ -55,6 +66,16 @@ public class TeacherController {
         if (bindingResult.hasErrors())
             return "teachers/new";
         teacherService.save(teacher);
+        for(int i=1;i<=6;i++){
+
+            for(int j=1;j<6;j++){
+                ScheduleTeacher scheduleTeacher=new ScheduleTeacher();
+                scheduleTeacher.setDay(dayService.findById((long) i));
+                scheduleTeacher.setPara(paraService.findById((long) j));
+                scheduleTeacher.setTeacher(teacher);
+                scheduleTeacherService.save(scheduleTeacher);
+            }
+        }
         return "redirect:/teachers";
     }
 
@@ -84,6 +105,13 @@ public class TeacherController {
             schedule.setAudience(null);
             schedule.setTeacher(null);
         });
+
+//        teacher.getScheduleTeacherList().forEach(scheduleTeacher -> {
+//            scheduleTeacher.setLesson(null);
+//            scheduleTeacher.setAudience(null);
+//            scheduleTeacher.setTeacher(null);
+//            scheduleTeacher.setGroup(null);
+//        });
 
         teacherService.delete(id);
         return "redirect:/teachers";

@@ -54,4 +54,10 @@ public class ScheduleService {
     public boolean hasSchedule(Group group, Day day, Para para) {
         return scheduleRepository.existsByGroupAndDayAndPara(group, day,para);
     }
+
+
+    public Schedule findByGroupAndDayAndPara(Group group, Day day, Para para) {
+        Optional<Schedule> foundSchedule = Optional.ofNullable(scheduleRepository.findByGroupAndDayAndPara(group, day, para));
+        return foundSchedule.orElse(null);
+    }
 }

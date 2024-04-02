@@ -21,25 +21,25 @@
 <!--    <br/>-->
 
 <div align="center" >
-  <form th:method="PATCH" th:action="@{/schedules/add/{id}(id=${schedule.getId()})}" th:object="${schedule}">
-    <input type="hidden" name="groupId" th:value="${group.getId()}" />
-    <input type="hidden" name="para.id" th:value="${schedule.para?.id}" />
-    <input type="hidden" name="day.id" th:value="${schedule.day?.id}" />
+  <form th:method="PATCH" th:action="@{/schedulesTeacher/add/{id}(id=${scheduleTeacher.getId()})}" th:object="${scheduleTeacher}">
+    <input type="hidden" name="teacherId" th:value="${teacher.getId()}" />
+    <input type="hidden" name="para.id" th:value="${scheduleTeacher.para?.id}" />
+    <input type="hidden" name="day.id" th:value="${scheduleTeacher.day?.id}" />
 
-    <p th:text="${group.groupName}" ></p>
+    <p th:text="${teacher.teacherName}" ></p>
     <table border="1">
       <thead>
       <tr>
         <th>Пара</th>
         <th>Предмет</th>
-        <th>Преподаватель</th>
+        <th>Группа</th>
         <th>Аудитория</th>
 
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td th:text="${schedule.para?.paraNumber}"></td>
+        <td th:text="${scheduleTeacher.para?.paraNumber}"></td>
         <td>
           <select id="lesson" th:field="*{lesson.id}">
             <option th:each="lesson : ${lessons}" th:value="${lesson.id}" th:text="${lesson.lessonName}">
@@ -47,10 +47,10 @@
           </select>
         </td>
 
-        <td>  <select id="group" th:field="*{teacher.id}">
-          <option th:each="teacher : ${teachers}"
-                  th:value="${teacher.id}"
-                  th:text="${teacher.teacherName}">
+        <td>  <select id="group" th:field="*{group.id}">
+          <option th:each="group : ${groups}"
+                  th:value="${group.id}"
+                  th:text="${group.groupName}">
           </option>
         </select>
         </td>
@@ -63,7 +63,9 @@
         </select>
         </td>
 
-        <td  th:text="${schedule.day.dayName}"
+
+
+        <td  th:text="${scheduleTeacher.day.dayName}"
              style="writing-mode: vertical-rl; text-align: center;">
         </td>
       </tr>
@@ -82,7 +84,7 @@
     <!--        <input type="hidden" name="group.id" th:value="${scheduleTeacher.group?.id}" />-->
 
     <!--        <input type="submit" class="btn btn-danger ml-2" value="Delete"/>-->
-  </form>
+      </form>
 </div>
 
 </body>

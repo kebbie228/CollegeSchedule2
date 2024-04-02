@@ -11,6 +11,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
     List<Schedule> findByTeacher (Teacher teacher);
     List<Schedule> findByGroupAndDayIdOrderByDayAscParaAsc (Group group,Long dayId);
 
+    Schedule findByGroupAndDayAndPara(Group group, Day day, Para para);
+
     boolean existsByGroupAndDayAndPara(Group group, Day day, Para para);
 
 }

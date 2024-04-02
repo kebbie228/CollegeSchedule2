@@ -8,6 +8,9 @@
 <body>
 <a th:href="@{/lessons/teacher/{id}(id=${teacher.getId()})}">Список предметов, которые ведет преподаватель</a>
 <br>
+<a th:href="@{/schedulesTeacher/teacher/{id}(id=${teacher.getId()})}">Рассписание преподавателя</a>
+<br>
+
 <a th:href="@{/teachers/{id}/edit(id=${teacher.getId()})}">Edit</a>
 <form th:method="DELETE" th:action="@{/teachers/{id}(id=${teacher.getId()})}">
   <input type="submit" value="Delete"/>

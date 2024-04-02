@@ -2,6 +2,7 @@ package org.itstep.services;
 
 
 
+import org.itstep.model.Group;
 import org.itstep.model.Lesson;
 import org.itstep.model.Teacher;
 import org.itstep.repositories.TeacherRepository;
@@ -40,6 +41,9 @@ public class TeacherService {
     public Teacher findByTeacherName(String teacherName){
         Optional<Teacher> foundTeacher= Optional.ofNullable(teacherRepository.findByTeacherName(teacherName));
         return foundTeacher.orElse(null);
+    }
+    public List<Teacher> findByTeacherNameContainingIgnoreCase(String firstLetters){
+        return  teacherRepository.findByTeacherNameContainingIgnoreCase(firstLetters);
     }
 }
 

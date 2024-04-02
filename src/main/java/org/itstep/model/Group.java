@@ -37,4 +37,7 @@ public class Group {
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList;
 
+    @OneToMany(mappedBy = "group")
+    private List<ScheduleTeacher> scheduleTeacherList;
+
 }

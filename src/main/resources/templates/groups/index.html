@@ -8,6 +8,8 @@
 <body>
 <a th:href="@{/lessons/group/{id}(id=${group.getId()})}">Список предметов группы</a>
 <br>
+<a th:href="@{/schedules/group/{id}(id=${group.getId()})}">Рассписание группы</a>
+<br>
 <a th:href="@{/groups/{id}/edit(id=${group.getId()})}">Edit</a>
 <br>
 <form th:method="DELETE" th:action="@{/groups/{id}(id=${group.getId()})}">
