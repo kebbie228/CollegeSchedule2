@@ -5,22 +5,9 @@
     <title>Update person</title>
 </head>
 <body>
-<!--    <label for="lesson">Выберите предмет</label>-->
-<!--    <select id="lesson" th:field="*{lesson.id}">-->
-<!--        <option th:each="lesson : ${lessons}" th:value="${lesson.id}" th:text="${lesson.lessonName}">-->
-<!--        </option>-->
-<!--    </select>-->
-<!--    <br/>-->
-<!--    <label for="audience">Выберите аудиторию</label>-->
-<!--    <select id="audience" th:field="*{audience.id}">-->
-<!--        <option th:each="audience : ${audiences}"-->
-<!--                th:value="${audience.id}"-->
-<!--                th:text="${audience.getAudienceNumber()}">-->
-<!--        </option>-->
-<!--    </select>-->
-<!--    <br/>-->
 
-    <div align="center" >
+
+<div align="center">
     <form th:method="PATCH" th:action="@{/schedules/edit/{id}(id=${schedule.getId()})}" th:object="${schedule}">
         <input type="hidden" name="groupId" th:value="${group.getId()}" />
         <input type="hidden" name="para.id" th:value="${schedule.para?.id}" />
@@ -34,7 +21,6 @@
                 <th>Предмет</th>
                 <th>Преподаватель</th>
                 <th>Аудитория</th>
-
             </tr>
             </thead>
             <tbody>
@@ -46,44 +32,26 @@
                         </option>
                     </select>
                 </td>
-
-                <td>  <select id="teacher" th:field="*{teacher.id}">
-                    <option th:each="teacher : ${teachers}"
-                            th:value="${teacher.id}"
-                            th:text="${teacher.getTeacherName()}">
-                    </option>
-                </select>
+                <td>
+                    <select id="teacher" th:field="*{teacher.id}">
+                        <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.getTeacherName()}">
+                        </option>
+                    </select>
                 </td>
-                <td>  <select id="audience" th:field="*{audience.id}">
-                    <option th:each="audience : ${audiences}"
-                            th:value="${audience.id}"
-                            th:text="${audience.getAudienceNumber()}">
-                    </option>
-                </select>
+                <td>
+                    <select id="audience" th:field="*{audience.id}">
+                        <option th:each="audience : ${audiences}" th:value="${audience.id}" th:text="${audience.getAudienceNumber()}">
+                        </option>
+                    </select>
                 </td>
-
-
-
-                <td  th:text="${schedule.day.dayName}"
-                    style="writing-mode: vertical-rl; text-align: center;">
-                </td>
+                <td th:text="${schedule.day.dayName}" style="writing-mode: vertical-rl; text-align: center;"></td>
             </tr>
             </tbody>
         </table>
-
-
-
-    <input type="submit" value="Update!"/>
-</form>
-        <form th:method="PATCH" th:action="@{/schedules/editGroup}" >
-            <input type="hidden" name="scheduleId" th:value="${schedule.id}" />
-        <input type="hidden" name="groupId" th:value="${group.getId()}" />
-        <input type="hidden" name="para.id" th:value="${schedule.para?.id}" />
-        <input type="hidden" name="day.id" th:value="${schedule.day?.id}" />
-
-        <input type="submit" class="btn btn-danger ml-2" value="Delete"/>
+        <input type="submit" value="Update!"/>
     </form>
 </div>
+
 
 </body>
 </html>

@@ -5,20 +5,6 @@
     <title>Update person</title>
 </head>
 <body>
-<!--    <label for="lesson">Выберите предмет</label>-->
-<!--    <select id="lesson" th:field="*{lesson.id}">-->
-<!--        <option th:each="lesson : ${lessons}" th:value="${lesson.id}" th:text="${lesson.lessonName}">-->
-<!--        </option>-->
-<!--    </select>-->
-<!--    <br/>-->
-<!--    <label for="audience">Выберите аудиторию</label>-->
-<!--    <select id="audience" th:field="*{audience.id}">-->
-<!--        <option th:each="audience : ${audiences}"-->
-<!--                th:value="${audience.id}"-->
-<!--                th:text="${audience.getAudienceNumber()}">-->
-<!--        </option>-->
-<!--    </select>-->
-<!--    <br/>-->
 
     <div align="center" >
     <form th:method="PATCH" th:action="@{/schedulesTeacher/edit/{id}(id=${scheduleTeacher.getId()})}" th:object="${scheduleTeacher}">
@@ -75,16 +61,8 @@
 
 
     <input type="submit" value="Update!"/>
-<!--</form>-->
-<!--        <form th:method="PATCH" th:action="@{/schedulesTeacher/editTeacher}" >-->
-<!--            <input type="hidden" name="scheduleId" th:value="${scheduleTeacher.id}" />-->
-<!--        <input type="hidden" name="teacherId" th:value="${teacher.getId()}" />-->
-<!--        <input type="hidden" name="para.id" th:value="${scheduleTeacher.para?.id}" />-->
-<!--        <input type="hidden" name="day.id" th:value="${scheduleTeacher.day?.id}" />-->
-<!--        <input type="hidden" name="group.id" th:value="${scheduleTeacher.group?.id}" />-->
 
-<!--        <input type="submit" class="btn btn-danger ml-2" value="Delete"/>-->
-<!--    </form>-->
+    </form>
 </div>
 
 </body>

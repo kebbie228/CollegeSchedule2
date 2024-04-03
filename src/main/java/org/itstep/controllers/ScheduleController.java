@@ -1,9 +1,12 @@
 package org.itstep.controllers;
 
 import org.itstep.model.*;
+import org.itstep.security.PersonDetails;
 import org.itstep.services.*;
 import org.itstep.util.ScheduleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +57,15 @@ private final ScheduleService scheduleService;
 
     @GetMapping("/group/{id}")
     public String groupSchedule2(Model model, @PathVariable("id") Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         Group group= groupService.findById(id);
 
         model.addAttribute("scheduleGroup", scheduleService.findByGroup(group));
@@ -71,6 +83,16 @@ private final ScheduleService scheduleService;
     @GetMapping("/{id1}/editAddScheduleGroup/{id2}")
     public String addSchedule(Model model, @PathVariable("id1") Long id1,@PathVariable("id2") Long id2
     ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         Schedule schedule= scheduleService.findById(id1);
         Group group= groupService.findById(id2);
         model.addAttribute("day", schedule.getDay());

@@ -2,17 +2,53 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Update person</title>
+    <title>Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand navbar-light bg-white border-bottom">
+    <a class="navbar-brand" href="#">
+        <img src="/photo/logo3.jpg" alt="vfbsac logo" width="300" height="50" decoding="async" original-font-size="15px" original-border-color="rgb(59, 154, 215)" original-background-color="rgba(0, 0, 0, 0)" original-background-image="none" original-color="rgb(59, 154, 215)" original-box-shadow="none" original-text-shadow="none" original-font-family="sans-serif" original-letter-spacing="0" original-line-height="24px">
+    </a>
 
-<form th:method="PATCH" th:action="@{/lessons/{id}(id=${lesson.getId()})}" th:object="${lesson}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{lessonName}" id="name"/>
-    <div style="color:red" th:if="${#fields.hasErrors('lessonName')}" th:errors="*{lessonName}">Name Error</div>
-    <br/>
-    <input type="submit" value="Update!"/>
-</form>
+    <div class="navbar-nav ml-auto">
+        <th:block th:if="${person}">
+            <a class="nav-link" href="/lessons" style="color:#000000">Предметы</a>
+            <a class="nav-link" href="/teachers" style="color:#000000">Преподаватели</a>
+            <a class="nav-link" href="/groups" style="color:#000000">Группы</a>
+        </th:block>
+        <a class="nav-link" href="/search" style="color:#000000">Поиск</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#000000">
+                Профиль
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <th:block th:if="${person}">
+                    <form th:action="@{/logout}" method="POST">
+                        <input class="dropdown-item" type="submit" value="Выйти"/>
+                    </form>
+                </th:block>
+                <th:block th:if="${person==null}">
+                    <a class="nav-link" th:href="@{/login}" style="color:#000000">Войти</a>
+                </th:block>
+            </div>
+        </li>
+    </div>
+</nav>
+<div class="container mt-3">
+    <h2>Редактирование предмета</h2>
+    <form th:method="PATCH" th:action="@{/lessons/{id}(id=${lesson.getId()})}" th:object="${lesson}">
+        <div class="form-group">
+            <label for="name">Название предмета:</label>
+            <input type="text" class="form-control" th:field="*{lessonName}" id="name" placeholder="Введите название предмета">
+            <small id="nameHelp" class="form-text text-danger" th:if="${#fields.hasErrors('lessonName')}" th:errors="*{lessonName}">Введите корректное название предмета</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Обновить</button>
+    </form>
+</div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

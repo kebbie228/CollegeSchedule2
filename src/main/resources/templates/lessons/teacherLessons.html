@@ -1,25 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Show</title>
+  <title>Title</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 <body>
+<nav class="navbar navbar-expand navbar-light bg-white border-bottom">
+  <a class="navbar-brand" href="#">
+    <img src="/photo/logo3.jpg" alt="vfbsac logo" width="300" height="50" decoding="async" original-font-size="15px" original-border-color="rgb(59, 154, 215)" original-background-color="rgba(0, 0, 0, 0)" original-background-image="none" original-color="rgb(59, 154, 215)" original-box-shadow="none" original-text-shadow="none" original-font-family="sans-serif" original-letter-spacing="0" original-line-height="24px">
+  </a>
 
-<div th:each="lesson: ${lessons}">
-  <div class="d-flex align-items-center">
-    <span th:text="${lesson.getLessonName()}">group</span>
-    <form th:method="DELETE" th:action="@{/teacherLesson/deleteLessonFromTeacher}">
-      <input type="hidden" name="teacherId" th:value="${teacher.getId()}" />
-      <input type="hidden" name="lessonId" th:value="${lesson.getId()}" />
-      <input type="submit" class="btn btn-danger ml-2" value="Delete"/>
-    </form>
+  <div class="navbar-nav ml-auto">
+    <th:block th:if="${person}">
+      <a class="nav-link" href="/lessons" style="color:#000000">Предметы</a>
+      <a class="nav-link" href="/teachers" style="color:#000000">Преподаватели</a>
+      <a class="nav-link" href="/groups" style="color:#000000">Группы</a>
+    </th:block>
+    <a class="nav-link" href="/search" style="color:#000000">Поиск</a>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#000000">
+        Профиль
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <th:block th:if="${person}">
+          <form th:action="@{/logout}" method="POST">
+            <input class="dropdown-item" type="submit" value="Выйти"/>
+          </form>
+        </th:block>
+        <th:block th:if="${person==null}">
+          <a class="nav-link" th:href="@{/login}" style="color:#000000">Войти</a>
+        </th:block>
+      </div>
+    </li>
   </div>
+</nav>
+<div class="container mt-3">
+  <h2>Список предметов преподавателя</h2>
+  <h4 >
+    <a style="color:#000000" th:text="${teacher.teacherName}"
+       th:href="@{/teachers/{id}(id=${teacher.getId()})}">
+    </a>
+  </h4>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Название предмета</th>
+      <th:block th:if="${person}">
+      <th>Действия</th>
+      </th:block>
+    </tr>
+    <tr>
+      <th:block th:if="${person}">
+        <div class="text-center mt-3 text-success" th:if="${person}">
+          <a th:href="@{/lessons/teacher/{id}/add(id=${teacher.getId()})}" class="btn btn-primary mt-3">Добавить предмет преподавателю</a>
+        </div>
+      </th:block>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="lesson: ${lessons}">
+      <td th:text="${lesson.getLessonName()}"></td>
+      <th:block th:if="${person}">
+      <td>
+        <form th:method="DELETE" th:action="@{/teacherLesson/deleteLessonFromTeacher}">
+          <input type="hidden" name="teacherId" th:value="${teacher.getId()}" />
+          <input type="hidden" name="lessonId" th:value="${lesson.getId()}" />
+          <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+      </td>
+      </th:block>
+    </tr>
+    </tbody>
+  </table>
 </div>
-<a th:href="@{/lessons/teacher/{id}/add(id=${teacher.getId()})}">Добавить к преподавателю предмет</a>
-</br>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

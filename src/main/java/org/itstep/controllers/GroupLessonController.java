@@ -1,11 +1,7 @@
 package org.itstep.controllers;
 
-import org.itstep.model.Group;
-import org.itstep.model.GroupLesson;
-import org.itstep.model.Lesson;
-import org.itstep.services.GroupLessonService;
-import org.itstep.services.GroupService;
-import org.itstep.services.LessonService;
+import org.itstep.model.*;
+import org.itstep.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +13,16 @@ public class GroupLessonController {
 private final GroupLessonService groupLessonService;
 private final GroupService groupService;
 private final LessonService lessonService;
+    private final ScheduleTeacherService scheduleTeacherService;
+    private final ScheduleService scheduleService;
 @Autowired
-    public GroupLessonController(GroupLessonService groupLessonService, GroupService groupService, LessonService lessonService) {
+    public GroupLessonController(GroupLessonService groupLessonService, GroupService groupService, LessonService lessonService, ScheduleTeacherService scheduleTeacherService, ScheduleService scheduleService) {
         this.groupLessonService = groupLessonService;
     this.groupService = groupService;
     this.lessonService = lessonService;
 
+    this.scheduleTeacherService = scheduleTeacherService;
+    this.scheduleService = scheduleService;
 }
     //delete lesson in group
     @DeleteMapping("/deleteLessonFromGroup/{id1}/{id2}")
@@ -30,6 +30,24 @@ private final LessonService lessonService;
         Group group=  groupService.findById(id1);
         Lesson lesson= lessonService.findById(id2);
         groupLessonService.delete(groupLessonService.findByGroupAndLesson(group,lesson));
+        for(ScheduleTeacher scheduleTeacher: group.getScheduleTeacherList()){
+            if( scheduleTeacher.getLesson()==lesson){
+                scheduleTeacher.setLesson(null);
+                scheduleTeacher.setAudience(null);
+                scheduleTeacher.setGroup(null);
+            }
+            scheduleTeacherService.save(scheduleTeacher);
+        }
+
+
+        for(Schedule schedule: group.getScheduleList()){
+            if( schedule.getLesson()==lesson){
+                schedule.setLesson(null);
+                schedule.setAudience(null);
+                schedule.setTeacher(null);
+            }
+            scheduleService.save(schedule);
+        }
         String redirectUrl = "redirect:/lessons/group/" + id1;
         return redirectUrl;
     }

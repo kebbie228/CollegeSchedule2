@@ -4,9 +4,12 @@ import org.itstep.model.Group;
 
 import org.itstep.model.Schedule;
 import org.itstep.model.Teacher;
+import org.itstep.security.PersonDetails;
 import org.itstep.services.*;
 import org.itstep.util.GroupValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,17 +44,47 @@ public class GroupController {
 
     @GetMapping()
     public String show(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         model.addAttribute("groups", groupService.findAll());
         return "groups/show";
     }
 
     @GetMapping("/{id}")
     public String index(@PathVariable("id") Long id, Model model, @ModelAttribute("group") Group group) {
-        model.addAttribute("group", groupService.findById(id));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
+       model.addAttribute("group", groupService.findById(id));
         return "groups/index";
     }
     @GetMapping("/new")
-    public String newGroup( @ModelAttribute("group") Group group) {
+    public String newGroup(Model model, @ModelAttribute("group") Group group) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         return "groups/new";
 
     }

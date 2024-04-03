@@ -1,9 +1,12 @@
 package org.itstep.controllers;
 
 import org.itstep.model.*;
+import org.itstep.security.PersonDetails;
 import org.itstep.services.*;
 import org.itstep.util.LessonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,17 +44,47 @@ public class LessonController {
 
     @GetMapping()
     public String show(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         model.addAttribute("lessons", lessonService.findAll());
         return "lessons/show";
     }
 
     @GetMapping("/{id}")
     public String index(@PathVariable("id") Long id, Model model, @ModelAttribute("lesson") Lesson lesson) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         model.addAttribute("lesson", lessonService.findById(id));
         return "lessons/index";
     }
     @GetMapping("/new")
-    public String newLesson( @ModelAttribute("lesson") Lesson lesson) {
+    public String newLesson(Model model, @ModelAttribute("lesson") Lesson lesson) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
+
         return "lessons/new";
     }
 
@@ -68,6 +101,17 @@ public class LessonController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
+
         model.addAttribute("lesson", lessonService.findById(id));
         return "lessons/edit";
     }
@@ -104,6 +148,15 @@ public class LessonController {
     }
     @GetMapping("/group/{id}")
     public String listGroupLessons(Model model,@PathVariable("id") Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         Group group = groupService.findById(id);
         model.addAttribute("group", group);
         model.addAttribute("lessons",lessonService.findByGroups(group));
@@ -112,6 +165,15 @@ public class LessonController {
 
     @GetMapping("/teacher/{id}")
     public String listTeacherLessons(Model model,@PathVariable("id") Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         Teacher teacher = teacherService.findById(id);
         model.addAttribute("teacher", teacher);
         model.addAttribute("lessons",lessonService.findByTeachers(teacher));
@@ -120,6 +182,17 @@ public class LessonController {
 
     @GetMapping("/group/{id}/add")
     public String addLessonToGroup(Model model,@PathVariable("id") Long id, @ModelAttribute("groupLesson") GroupLesson groupLesson) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
+
         Group group = groupService.findById(id);
         model.addAttribute("group", group);
         List<Lesson> lessons = lessonService.findAll();
@@ -137,6 +210,18 @@ public class LessonController {
 
     @GetMapping("/teacher/{id}/add")
     public String addLessonToTeacher(Model model,@PathVariable("id") Long id, @ModelAttribute("teacherLesson") TeacherLesson teacherLesson) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
+
         Teacher teacher = teacherService.findById(id);
         model.addAttribute("teacher", teacher);
         List<Lesson> lessons = lessonService.findAll();

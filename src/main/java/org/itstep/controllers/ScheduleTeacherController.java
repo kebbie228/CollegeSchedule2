@@ -1,8 +1,11 @@
 package org.itstep.controllers;
 
 import org.itstep.model.*;
+import org.itstep.security.PersonDetails;
 import org.itstep.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +50,18 @@ private final ScheduleTeacherService scheduleTeacherService;
 
     @GetMapping("/teacher/{id}")
     public String groupSchedule2(Model model, @PathVariable("id") Long id) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
+
         Teacher teacher= teacherService.findById(id);
 
         model.addAttribute("scheduleTeacher", scheduleTeacherService.findByTeacher(teacher));
@@ -67,6 +82,16 @@ private final ScheduleTeacherService scheduleTeacherService;
     @GetMapping("/{id1}/editAddScheduleTeacher/{id2}")
     public String addSchedule(Model model, @PathVariable("id1") Long id1,@PathVariable("id2") Long id2
     ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         ScheduleTeacher scheduleTeacher= scheduleTeacherService.findById(id1);
         Teacher teacher= teacherService.findById(id2);
         model.addAttribute("day", scheduleTeacher.getDay());
@@ -152,66 +177,5 @@ else if(!group.getLessons().contains(lessonService.findById(lessonId)))   {
         scheduleTeacherService.update(scheduleTeacher.getId(),scheduleTeacher);
         return "redirect:/schedulesTeacher/teacher/"+teacherId;
     }
-//    @GetMapping("/{id1}/editTeacher/{id2}")
-//    public String editSchedule(Model model, @PathVariable("id1") Long id1,@PathVariable("id2") Long id2
-//                              ) {
-//        ScheduleTeacher scheduleTeacher= scheduleTeacherService.findById(id1);
-//        Teacher teacher= teacherService.findById(id2);
-//        model.addAttribute("day", scheduleTeacher.getDay());
-//        model.addAttribute("para", scheduleTeacher.getPara());
-//        model.addAttribute("teacher", teacher);
-//        model.addAttribute("scheduleTeacher", scheduleTeacher);
-//        model.addAttribute("groups", groupService.findAll()); // group findBylesson
-//        model.addAttribute("lessons", lessonService.findByTeachers(teacher));
-//        model.addAttribute("audiences", audienceService.findAll());
-//        return "schedulesTeacher/edit";
-//    }
-//    @PatchMapping("/edit/{id}")
-//    public String updateSchedule(@ModelAttribute("scheduleTeacher") ScheduleTeacher scheduleTeacher,
-//                                 @RequestParam("lesson.id") Long lessonId,
-//                                 @RequestParam("teacherId") Long teacherId,
-//                                 @RequestParam("day.id") Long dayId,
-//                                 @RequestParam("para.id") Long paraId,
-//                                 @RequestParam("group.id") Long groupId,
-//                                 @RequestParam("audience.id") Long audienceId
-//    ) {
-//
-//        Group group= groupService.findById(groupId);
-//        Para para=paraService.findById(paraId);
-//        Day day=dayService.findById(dayId);
-//        Schedule schedule=scheduleService.findByGroupAndDayAndPara(group,day,para);
-//        if(scheduleTeacher.getTeacher()==schedule.getTeacher()){}
-//         System.out.println("йоу");
-////         schedule.setPara(para);
-////         schedule.setDay(day);
-//         schedule.setLesson(lessonService.findById(lessonId));
-//            schedule.setAudience(audienceService.findById(audienceId));
-////        schedule.setTeacher(teacherService.findById(teacherId));
-//         scheduleService.update(schedule.getId(), schedule);
-//
-//         scheduleTeacher.setPara(para);
-//         scheduleTeacher.setDay(day);
-//         scheduleTeacher.setLesson(lessonService.findById(lessonId));
-//         scheduleTeacher.setTeacher(teacherService.findById(teacherId));
-//         scheduleTeacher.setAudience(audienceService.findById(audienceId));
-//         scheduleTeacher.setGroup(group);
-//         scheduleTeacherService.update(scheduleTeacher.getId(), scheduleTeacher);
-//
-//
-//        return "redirect:/schedulesTeacher/teacher/"+teacherId;
-//    }
-//
 
-
-
-
-//    @DeleteMapping("/group/delete")
-//    public String deleteScheduleFromGroup(@RequestParam("scheduleId") Long scheduleId,
-//    @RequestParam("groupId") Long groupId)
-//    {
-// scheduleService.delete(scheduleId);
-//
-//    String redirectUrl = "redirect:/schedules/group/" + groupId;
-//        return redirectUrl;
-//}
  }

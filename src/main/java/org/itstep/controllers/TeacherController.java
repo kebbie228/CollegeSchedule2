@@ -3,9 +3,13 @@ package org.itstep.controllers;
 import org.itstep.model.Schedule;
 import org.itstep.model.ScheduleTeacher;
 import org.itstep.model.Teacher;
+import org.itstep.security.PersonDetails;
 import org.itstep.services.*;
 import org.itstep.util.TeacherValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +47,15 @@ public class TeacherController {
 
     @GetMapping()
     public String show(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         model.addAttribute("teachers", teacherService.findAll());
         return "teachers/show";
     }
@@ -50,10 +63,32 @@ public class TeacherController {
     @GetMapping("/{id}")
     public String index(@PathVariable("id") Long id, Model model, @ModelAttribute("teacher") Teacher teacher) {
         model.addAttribute("teacher", teacherService.findById(id));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+
+        }
         return "teachers/index";
     }
     @GetMapping("/new")
-    public String newTeacher( @ModelAttribute("teacher") Teacher teacher) {
+    public String newTeacher(Model model, @ModelAttribute("teacher") Teacher teacher) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+
+        }
+
         return "teachers/new";
     }
 
@@ -81,6 +116,16 @@ public class TeacherController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("person", null);
+            return "redirect:/search";
+        }
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+        }
         model.addAttribute("teacher", teacherService.findById(id));
         return "teachers/edit";
     }
