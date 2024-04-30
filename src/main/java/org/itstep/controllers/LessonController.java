@@ -138,7 +138,6 @@ public class LessonController {
             teacher.getTeacherLessons().remove(lesson);
             teacherService.save(teacher);
         }
-        lesson.get
 
         lesson.getScheduleList().forEach(schedule -> {
             schedule.setLesson(null);
