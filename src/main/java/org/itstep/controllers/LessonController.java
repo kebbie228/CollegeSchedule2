@@ -134,12 +134,26 @@ public class LessonController {
             groupService.save(group);
         }
         for(Teacher teacher: lesson.getTeachers()){
-
             teacher.getTeacherLessons().remove(lesson);
             teacherService.save(teacher);
         }
 
+//        for(Teacher teacher: lesson.getTeachers()){
+//
+//            teacher.getTeacherLessons().remove(lesson);
+//            teacherService.save(teacher);
+//        }
+
+        lesson.getScheduleTeacherList().forEach(scheduleTeacher -> {
+            System.out.println("работай1");
+            scheduleTeacher.setLesson(null);
+            scheduleTeacher.setGroup(null);
+            scheduleTeacher.setAudience(null);
+        });
+
+
         lesson.getScheduleList().forEach(schedule -> {
+            System.out.println("работай2");
             schedule.setLesson(null);
             schedule.setAudience(null);
             schedule.setTeacher(null);
