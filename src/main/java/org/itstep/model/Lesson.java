@@ -38,4 +38,6 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson",cascade = CascadeType.PERSIST)
     private List<Schedule> scheduleList;
+
+
 }

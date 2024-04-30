@@ -134,14 +134,19 @@ public class LessonController {
             groupService.save(group);
         }
         for(Teacher teacher: lesson.getTeachers()){
+
             teacher.getTeacherLessons().remove(lesson);
             teacherService.save(teacher);
         }
+        lesson.get
+
         lesson.getScheduleList().forEach(schedule -> {
             schedule.setLesson(null);
             schedule.setAudience(null);
             schedule.setTeacher(null);
         });
+
+
 
         lessonService.delete(id);
         return "redirect:/lessons";

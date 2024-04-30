@@ -12,6 +12,11 @@
   </a>
 
   <div class="navbar-nav ml-auto">
+    <th:block th:if="${person}">
+      <a class="nav-link" href="/lessons" style="color:#000000">Предметы</a>
+      <a class="nav-link" href="/teachers" style="color:#000000">Преподаватели</a>
+      <a class="nav-link" href="/groups" style="color:#000000">Группы</a>
+    </th:block>
     <a class="nav-link" href="/search" style="color:#000000">Поиск</a>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#000000">

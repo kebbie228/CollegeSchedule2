@@ -43,6 +43,14 @@ private final TeacherService teacherService;
 
     @PostMapping("/search")
     public String makeSearch(Model model, @RequestParam("query") String firstLetters) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if( authentication.getPrincipal().equals("anonymousUser")) model.addAttribute("person",null);
+        else {
+            PersonDetails personDetails= (PersonDetails)authentication.getPrincipal();
+            model.addAttribute("person",personDetails.getPerson());
+
+        }
         model.addAttribute("groups", groupService.findByGroupNameContainingIgnoreCase(firstLetters));
         model.addAttribute("teachers", teacherService.findByTeacherNameContainingIgnoreCase(firstLetters));
 
