@@ -58,7 +58,12 @@
         <tr th:each="schedule, iterStat : ${scheduleTeacher}">
             <td th:text="${schedule.para?.paraNumber}"></td>
             <td th:text="${schedule.lesson?.lessonName}"></td>
-            <td th:text="${schedule.group?.groupName}"></td>
+            <td >
+                <a style="color:#000000"  th:text="${schedule.group?.groupName}"
+                   th:href="@{/groups/{id}(id=${schedule.group?.getId()})}">
+                </a>
+            </td>
+
             <td th:text="${schedule.audience?.audienceNumber}"></td>
             <th:block th:if="${person}">
             <td>

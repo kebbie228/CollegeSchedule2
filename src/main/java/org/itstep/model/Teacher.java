@@ -24,6 +24,8 @@ public class Teacher {
     @Size(min = 5, max = 33 , message = "ФИО преподавателя не должно превышать 33 символов")
     private String teacherName;
 
+    @Column(name = "photo_file_path")
+    private String photoFilePath;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="teacher_lesson",

@@ -58,10 +58,14 @@
     <tr th:each="schedule, iterStat : ${scheduleGroup}">
       <td th:text="${schedule.para?.paraNumber}"></td>
       <td th:text="${schedule.lesson?.lessonName}"></td>
-      <td th:text="${schedule.teacher?.teacherName}"></td>
+      <td >
+        <a style="color:#000000" th:text="${schedule.teacher?.teacherName}"
+           th:href="@{/teachers/{id}(id=${schedule.teacher?.getId()})}">
+        </a>
+      </td>
       <td th:text="${schedule.audience?.audienceNumber}"></td>
       <th:block th:if="${person}">
-      <td >
+      <td>
 
         <th:block th:if="${schedule.lesson!=null}">
 
@@ -87,7 +91,7 @@
         </th:block>
       </td>
       </th:block>
-      <td th:if="${iterStat.index % 5 == 0}" rowspan="5" th:text="${schedule.day?.dayName}"
+      <td  th:if="${iterStat.index % 5 == 0}" rowspan="5" th:text="${schedule.day?.dayName}"
           style="writing-mode: vertical-rl; text-align: center;">
       </td>
     </tr>

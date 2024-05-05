@@ -4,6 +4,54 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Добавляем стили для красивого вывода альбомов */
+    .album-container {
+      border: 2px solid #000;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px;
+      text-align: center;
+      display: inline-block;
+      width: 250px; /* Фиксированная ширина контейнера */
+      height: 280px; /* Фиксированная высота контейнера */
+      vertical-align: top; /* Выравнивание по верхнему краю */
+    }
+
+    .album-image {
+      width: 180px;
+      height: 180px;
+      border: 2px solid #000;
+      border-radius: 10px;
+      margin: 0 auto;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .album-title {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .delete-button {
+      margin-top: 10px; /* Отступ сверху кнопки */
+    }
+    .album-title {
+      font-size: 16px; /* Размер шрифта 16px (или другой по вашему выбору) */
+      margin-top: 5px;
+      color: #000000; /* Черный цвет текста */
+      text-decoration: none; /* Убираем подчеркивание ссылки */
+      display: block; /* Делаем текст ссылки блочным элементом, чтобы он был между изображением и кнопкой */
+    }
+    .button-group {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .button-group .btn {
+      margin: 0 5px;
+    }
+
+  </style>
 </head>
 <body>
 <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
@@ -36,22 +84,35 @@
   </div>
 </nav>
 
+
+
+
 <div class="container mt-3">
-  <h2>Информация о группе</h2>
-  <h4>
-    <a style="color:#000000" th:text="${group.getGroupName()}" th:href="@{/groups/{id}(id=${group.getId()})}">
-    </a>
-  </h4>
-  <a th:href="@{/lessons/group/{id}(id=${group.getId()})}" class="btn btn-primary">Список предметов группы</a>
-  <a th:href="@{/schedules/group/{id}(id=${group.getId()})}" class="btn btn-primary">Расписание группы</a>
-  <br>
-  <th:block th:if="${person}">
-    <a th:href="@{/groups/{id}/edit(id=${group.getId()})}" class="btn btn-info">Редактировать</a>
-    <form th:method="DELETE" th:action="@{/groups/{id}(id=${group.getId()})}">
-      <button type="submit" class="btn btn-danger">Удалить</button>
-    </form>
-  </th:block>
+  <h2>Информация о преподавателе</h2>
+
+  <div class="album-container">
+    <div class="album-image" >
+      <a th:href="@{/groups/{id}(id=${group.getId()})}" class="album-title" style="color:#000000; display: flex; align-items: center; justify-content: center;">
+        <!-- Переносим стили к контейнеру текста -->
+        <span th:text="${group.getGroupName()}">group</span>
+      </a>
+    </div>
+
+    <a th:href="@{/lessons/group/{id}(id=${group.getId()})}" class="btn btn-primary mt-3">Предметы </a>
+    <a th:href="@{/schedules/group/{id}(id=${group.getId()})}" class="btn btn-primary mt-3">Расписание</a>
+      <div class="button-group mt-5 ">
+        <th:block th:if="${person}">
+        <a th:href="@{/groups/{id}/edit(id=${group.getId()})}" class="btn btn-info">Редактировать</a>
+        <form th:method="DELETE" th:action="@{/groups/{id}(id=${group.getId()})}">
+          <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+
+      </th:block>
+    </div>
+  </div>
 </div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

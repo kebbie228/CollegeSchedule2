@@ -14,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 
 
 @Controller
@@ -94,12 +97,22 @@ public class TeacherController {
 
     @PostMapping()
     public String create(@ModelAttribute("teacher") @Valid Teacher teacher,
-                         BindingResult bindingResult) {
+                         @RequestParam("imageFile") MultipartFile imageFile,
+                         BindingResult bindingResult) throws IOException {
+
+        if (!imageFile.isEmpty()) {
+            File dir = null; //Файловая система
+            //dir = new File("src/main/resources/static/album_photo");
+            dir = new File("target/classes/static/photo");
+            imageFile.transferTo(new File(dir.getAbsolutePath()+"/"+imageFile.getOriginalFilename()));
+            teacher.setPhotoFilePath("photo/"+imageFile.getOriginalFilename());
+        }
+else {
+            teacher.setPhotoFilePath("photo/avatar.jpg");
+        }
         teacherValidator.validate(teacher,bindingResult);
+        if (bindingResult.hasErrors()) return "teachers/new";
 
-
-        if (bindingResult.hasErrors())
-            return "teachers/new";
         teacherService.save(teacher);
         for(int i=1;i<=6;i++){
 
