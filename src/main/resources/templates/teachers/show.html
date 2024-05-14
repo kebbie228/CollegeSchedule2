@@ -3,7 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+        /* Общие стили для контейнеров */
+        .container {
+            margin-top: 20px;
+        }
+        h2 {
+            font-weight: 700;
+        }
+        /* Стили для списка предметов */
+        .list-group-item {
+            margin-top: 10px;
+        }
+        .list-group-item:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
@@ -45,7 +66,6 @@
         <a th:each="teacher : ${teachers}" th:href="@{/teachers/{id}(id=${teacher.getId()})}" class="list-group-item list-group-item-action btn btn-primary ">
             <span th:text="${teacher.getTeacherName()}"></span>
         </a>
-
     </div>
 </div>
 

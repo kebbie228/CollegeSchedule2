@@ -3,7 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Общие стили */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .navbar {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      margin-top: 40px;
+    }
+
+    h2 {
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    /* Стили для таблицы */
+    .table {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .table th,
+    .table td {
+      border: none;
+    }
+
+    /* Действия */
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    .btn-danger {
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+    }
+  </style>
 </head>
 <body>
 <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
@@ -53,8 +107,11 @@
     <tr>
       <th:block th:if="${person}">
         <div class="text-center mt-3 text-success" th:if="${person}">
-          <a th:href="@{/lessons/teacher/{id}/add(id=${teacher.getId()})}" class="btn btn-primary mt-3">Добавить предмет преподавателю</a>
+          <div class="col-12">
+          <a th:href="@{/lessons/teacher/{id}/add(id=${teacher.getId()})}" class="btn btn-success mt-3 w-100">Добавить предмет преподавателю</a>
         </div>
+        </div>
+
       </th:block>
     </tr>
     </thead>

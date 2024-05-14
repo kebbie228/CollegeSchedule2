@@ -4,46 +4,58 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Добавляем стили для красивого вывода альбомов */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .navbar {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .container {
+      margin-top: 40px;
+    }
+    h2 {
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
     .album-container {
-      border: 2px solid #000;
+      border: 2px solid #dee2e6;
       border-radius: 10px;
-      padding: 10px;
-      margin: 10px;
+      padding: 20px;
+      margin: 20px;
       text-align: center;
       display: inline-block;
-      width: 250px; /* Фиксированная ширина контейнера */
-      height: 280px; /* Фиксированная высота контейнера */
-      vertical-align: top; /* Выравнивание по верхнему краю */
+      width: 250px;
+      height: 339px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
-
+    .album-container:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
     .album-image {
-      max-width: 180px;
-      max-height: 180px;
-      border: 2px solid #000;
+      width: 180px;
+      height: 180px;
+      border: 2px solid #dee2e6;
       border-radius: 10px;
       margin: 0 auto;
-      display: flex; align-items: center; justify-content: center;
-
-    }
-
-    .album-title {
-      font-size: 14px;
-      margin-top: 5px;
-    }
-    .delete-button {
-      margin-top: 10px; /* Отступ сверху кнопки */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .album-title {
-      font-size: 16px; /* Размер шрифта 16px (или другой по вашему выбору) */
-      margin-top: 5px;
-      color: #000000; /* Черный цвет текста */
-      text-decoration: none; /* Убираем подчеркивание ссылки */
-      display: block; /* Делаем текст ссылки блочным элементом, чтобы он был между изображением и кнопкой */
+      font-size: 16px;
+      margin-top: 15px;
+      color: #000;
+      text-decoration: none;
+      display: block;
     }
     .button-group {
-      margin-top: 10px;
+      margin-top: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -51,15 +63,29 @@
     .button-group .btn {
       margin: 0 5px;
     }
-
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+    .btn-danger {
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .btn-danger:hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+    }
   </style>
 </head>
 <body>
 <nav class="navbar navbar-expand navbar-light bg-white border-bottom">
   <a class="navbar-brand" href="#">
-    <img src="/photo/logo3.jpg" alt="vfbsac logo" width="300" height="50" decoding="async" original-font-size="15px" original-border-color="rgb(59, 154, 215)" original-background-color="rgba(0, 0, 0, 0)" original-background-image="none" original-color="rgb(59, 154, 215)" original-box-shadow="none" original-text-shadow="none" original-font-family="sans-serif" original-letter-spacing="0" original-line-height="24px">
+    <img src="/photo/logo3.jpg" alt="vfbsac logo" width="300" height="50">
   </a>
-
   <div class="navbar-nav ml-auto">
     <th:block th:if="${person}">
       <a class="nav-link" href="/lessons" style="color:#000000">Предметы</a>
@@ -84,21 +110,20 @@
     </li>
   </div>
 </nav>
-<div class="container mt-3">
-  <h2>Информация о преподавателе</h2>
 
+<div class="container">
+  <h2>Информация о преподавателе</h2>
   <div class="album-container">
     <img th:src="|/${teacher.getPhotoFilePath()}|" alt="Teacher Photo" class="album-image">
     <a th:href="@{/teachers/{id}(id=${teacher.getId()})}" class="album-title" th:text="${teacher.getTeacherName()}" style="color:#000000">album</a>
-        <a th:href="@{/lessons/teacher/{id}(id=${teacher.getId()})}" class="btn btn-primary">Предметы </a>
-        <a th:href="@{/schedulesTeacher/teacher/{id}(id=${teacher.getId()})}" class="btn btn-primary">Расписание</a>
+        <a th:href="@{/lessons/teacher/{id}(id=${teacher.getId()})}" class="btn btn-primary mt-1">Предметы </a>
+        <a th:href="@{/schedulesTeacher/teacher/{id}(id=${teacher.getId()})}" class="btn btn-primary mt-2">Расписание</a>
     <div class="button-group mt-4 ">
       <th:block th:if="${person}">
         <a th:href="@{/teachers/{id}/edit(id=${teacher.getId()})}" class="btn btn-info">Редактировать</a>
         <form th:method="DELETE" th:action="@{/teachers/{id}(id=${teacher.getId()})}">
           <button type="submit" class="btn btn-danger">Удалить</button>
         </form>
-
       </th:block>
     </div>
   </div>
