@@ -93,8 +93,7 @@ public class LessonController {
                          BindingResult bindingResult) {
         lessonValidator.validate(lesson,bindingResult);
 
-        if (bindingResult.hasErrors())
-            return "lessons/new";
+        if (bindingResult.hasErrors()) return "lessons/new";
         lessonService.save(lesson);
         return "redirect:/lessons";
     }

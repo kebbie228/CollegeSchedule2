@@ -99,7 +99,11 @@ public class TeacherController {
     public String create(@ModelAttribute("teacher") @Valid Teacher teacher,
                          @RequestParam("imageFile") MultipartFile imageFile,
                          BindingResult bindingResult) throws IOException {
-
+        teacherValidator.validate(teacher,bindingResult);
+        if (bindingResult.hasErrors()) {
+            System.out.println("есть ошибка");
+            return "teachers/new";
+        }
         if (!imageFile.isEmpty()) {
             File dir = null; //Файловая система
             //dir = new File("src/main/resources/static/album_photo");
@@ -107,12 +111,9 @@ public class TeacherController {
             imageFile.transferTo(new File(dir.getAbsolutePath()+"/"+imageFile.getOriginalFilename()));
             teacher.setPhotoFilePath("photo/"+imageFile.getOriginalFilename());
         }
-else {
+  else {
             teacher.setPhotoFilePath("photo/avatar.jpg");
         }
-        teacherValidator.validate(teacher,bindingResult);
-        if (bindingResult.hasErrors()) return "teachers/new";
-
         teacherService.save(teacher);
         for(int i=1;i<=6;i++){
 

@@ -24,9 +24,8 @@ public class Lesson {
 
     @Column(name = "lesson_name")
     @NotEmpty(message = "Название предмета не должно быть пустым")
-    @Size(min = 2, max = 20, message = "Название предмета не должно превышать 20 символов")
+    @Size(min = 2, max = 20, message = " Название предмета должно содержать от 2 до 20 символов")
     private String lessonName;
-
 
 
     @ManyToMany(mappedBy = "teacherLessons")

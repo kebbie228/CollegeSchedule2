@@ -1,6 +1,6 @@
 package org.itstep.util;
 
-import org.itstep.model.Lesson;
+
 import org.itstep.model.Teacher;
 import org.itstep.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class TeacherValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Lesson.class.equals(clazz);
+        return Teacher.class.equals(clazz);
     }
 
     @Override
